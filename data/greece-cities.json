@@ -1,0 +1,648 @@
+{
+    "schemaVersion": 1,
+    "country": "GR",
+    "defaultRadiusMeters": 3000,
+    "cities": [
+      {
+        "id": "athens",
+        "name": "Athens",
+        "localName": "Αθήνα",
+        "region": "Attica",
+        "group": "Mainland",
+        "lat": 37.9838,
+        "lng": 23.7275,
+        "priority": 1,
+        "tags": ["capital", "history", "food", "nightlife"]
+      },
+      {
+        "id": "thessaloniki",
+        "name": "Thessaloniki",
+        "localName": "Θεσσαλονίκη",
+        "region": "Central Macedonia",
+        "group": "Mainland",
+        "lat": 40.6401,
+        "lng": 22.9444,
+        "priority": 1,
+        "tags": ["citybreak", "food", "nightlife", "history"]
+      },
+      {
+        "id": "patras",
+        "name": "Patras",
+        "localName": "Πάτρα",
+        "region": "Western Greece",
+        "group": "Mainland",
+        "lat": 38.2466,
+        "lng": 21.7346,
+        "priority": 2,
+        "tags": ["port", "citybreak"]
+      },
+      {
+        "id": "heraklion",
+        "name": "Heraklion",
+        "localName": "Ηράκλειο",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.3387,
+        "lng": 25.1442,
+        "priority": 1,
+        "tags": ["base", "history", "food"]
+      },
+      {
+        "id": "chania",
+        "name": "Chania",
+        "localName": "Χανιά",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.5138,
+        "lng": 24.0180,
+        "priority": 1,
+        "tags": ["oldtown", "beaches", "food"]
+      },
+      {
+        "id": "rethymno",
+        "name": "Rethymno",
+        "localName": "Ρέθυμνο",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.3644,
+        "lng": 24.4822,
+        "priority": 2,
+        "tags": ["oldtown", "beaches"]
+      },
+      {
+        "id": "agios-nikolaos",
+        "name": "Agios Nikolaos",
+        "localName": "Άγιος Νικόλαος",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.1900,
+        "lng": 25.7160,
+        "priority": 2,
+        "tags": ["beaches", "relax"]
+      },
+  
+      {
+        "id": "rhodes-town",
+        "name": "Rhodes Town",
+        "localName": "Ρόδος",
+        "region": "South Aegean",
+        "group": "Dodecanese",
+        "lat": 36.4340,
+        "lng": 28.2170,
+        "priority": 1,
+        "tags": ["oldtown", "history", "base"]
+      },
+      {
+        "id": "lindos",
+        "name": "Lindos",
+        "localName": "Λίνδος",
+        "region": "South Aegean",
+        "group": "Dodecanese",
+        "lat": 36.0917,
+        "lng": 28.0860,
+        "priority": 1,
+        "tags": ["postcard", "history", "views"]
+      },
+      {
+        "id": "kos-town",
+        "name": "Kos Town",
+        "localName": "Κως",
+        "region": "South Aegean",
+        "group": "Dodecanese",
+        "lat": 36.8926,
+        "lng": 27.2877,
+        "priority": 2,
+        "tags": ["beaches", "base"]
+      },
+      {
+        "id": "symi",
+        "name": "Symi",
+        "localName": "Σύμη",
+        "region": "South Aegean",
+        "group": "Dodecanese",
+        "lat": 36.6167,
+        "lng": 27.8333,
+        "priority": 2,
+        "tags": ["daytrip", "views"]
+      },
+      {
+        "id": "karpathos-pigadia",
+        "name": "Karpathos (Pigadia)",
+        "localName": "Κάρπαθος",
+        "region": "South Aegean",
+        "group": "Dodecanese",
+        "lat": 35.5070,
+        "lng": 27.2140,
+        "priority": 3,
+        "tags": ["windy", "beaches"]
+      },
+  
+      {
+        "id": "mykonos-town",
+        "name": "Mykonos (Chora)",
+        "localName": "Μύκονος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 37.4467,
+        "lng": 25.3289,
+        "priority": 1,
+        "tags": ["nightlife", "postcard", "beaches"]
+      },
+      {
+        "id": "santorini-fira",
+        "name": "Santorini (Fira)",
+        "localName": "Θήρα",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.4167,
+        "lng": 25.4333,
+        "priority": 1,
+        "tags": ["views", "sunset", "postcard"]
+      },
+      {
+        "id": "santorini-oia",
+        "name": "Santorini (Oia)",
+        "localName": "Οία",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.4610,
+        "lng": 25.3750,
+        "priority": 1,
+        "tags": ["sunset", "views", "postcard"]
+      },
+      {
+        "id": "naxos-town",
+        "name": "Naxos (Chora)",
+        "localName": "Νάξος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 37.1056,
+        "lng": 25.3764,
+        "priority": 2,
+        "tags": ["beaches", "family", "food"]
+      },
+      {
+        "id": "paros-parikia",
+        "name": "Paros (Parikia)",
+        "localName": "Πάρος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 37.0851,
+        "lng": 25.1486,
+        "priority": 2,
+        "tags": ["base", "beaches"]
+      },
+      {
+        "id": "paros-naousa",
+        "name": "Paros (Naousa)",
+        "localName": "Νάουσα",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 37.1220,
+        "lng": 25.2380,
+        "priority": 2,
+        "tags": ["food", "harbor", "nightlife"]
+      },
+      {
+        "id": "milos-adamas",
+        "name": "Milos (Adamas)",
+        "localName": "Μήλος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.7260,
+        "lng": 24.4460,
+        "priority": 2,
+        "tags": ["beaches", "boat"]
+      },
+      {
+        "id": "ios-chora",
+        "name": "Ios (Chora)",
+        "localName": "Ίος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.7210,
+        "lng": 25.2810,
+        "priority": 3,
+        "tags": ["nightlife", "beaches"]
+      },
+      {
+        "id": "sifnos-apollonia",
+        "name": "Sifnos (Apollonia)",
+        "localName": "Σίφνος",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.9730,
+        "lng": 24.7230,
+        "priority": 3,
+        "tags": ["food", "quiet"]
+      },
+  
+      {
+        "id": "corfu-town",
+        "name": "Corfu Town",
+        "localName": "Κέρκυρα",
+        "region": "Ionian Islands",
+        "group": "Ionian",
+        "lat": 39.6243,
+        "lng": 19.9217,
+        "priority": 1,
+        "tags": ["oldtown", "base", "beaches"]
+      },
+      {
+        "id": "paleokastritsa",
+        "name": "Paleokastritsa",
+        "localName": "Παλαιοκαστρίτσα",
+        "region": "Ionian Islands",
+        "group": "Ionian",
+        "lat": 39.6760,
+        "lng": 19.7050,
+        "priority": 2,
+        "tags": ["views", "beaches"]
+      },
+      {
+        "id": "lefkas",
+        "name": "Lefkada",
+        "localName": "Λευκάδα",
+        "region": "Ionian Islands",
+        "group": "Ionian",
+        "lat": 38.8333,
+        "lng": 20.7000,
+        "priority": 2,
+        "tags": ["beaches", "roadtrip"]
+      },
+      {
+        "id": "kefalonia-argostoli",
+        "name": "Kefalonia (Argostoli)",
+        "localName": "Κεφαλονιά",
+        "region": "Ionian Islands",
+        "group": "Ionian",
+        "lat": 38.1750,
+        "lng": 20.4890,
+        "priority": 2,
+        "tags": ["beaches", "nature"]
+      },
+      {
+        "id": "zakynthos-town",
+        "name": "Zakynthos Town",
+        "localName": "Ζάκυνθος",
+        "region": "Ionian Islands",
+        "group": "Ionian",
+        "lat": 37.7870,
+        "lng": 20.8990,
+        "priority": 2,
+        "tags": ["beaches", "boat"]
+      },
+  
+      {
+        "id": "nafplio",
+        "name": "Nafplio",
+        "localName": "Ναύπλιο",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 37.5686,
+        "lng": 22.8060,
+        "priority": 1,
+        "tags": ["weekend", "history", "romantic"]
+      },
+      {
+        "id": "kalamata",
+        "name": "Kalamata",
+        "localName": "Καλαμάτα",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 37.0389,
+        "lng": 22.1142,
+        "priority": 2,
+        "tags": ["beaches", "food"]
+      },
+      {
+        "id": "sparta",
+        "name": "Sparta",
+        "localName": "Σπάρτη",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 37.0733,
+        "lng": 22.4297,
+        "priority": 3,
+        "tags": ["history"]
+      },
+      {
+        "id": "monemvasia",
+        "name": "Monemvasia",
+        "localName": "Μονεμβασιά",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 36.6870,
+        "lng": 23.0550,
+        "priority": 1,
+        "tags": ["postcard", "romantic", "history"]
+      },
+      {
+        "id": "olympia",
+        "name": "Olympia",
+        "localName": "Ολυμπία",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 37.6386,
+        "lng": 21.6300,
+        "priority": 2,
+        "tags": ["history", "daytrip"]
+      },
+  
+      {
+        "id": "delphi",
+        "name": "Delphi",
+        "localName": "Δελφοί",
+        "region": "Central Greece",
+        "group": "Mainland",
+        "lat": 38.4800,
+        "lng": 22.5000,
+        "priority": 1,
+        "tags": ["history", "mountains"]
+      },
+      {
+        "id": "meteora-kalampaka",
+        "name": "Meteora (Kalabaka)",
+        "localName": "Καλαμπάκα",
+        "region": "Thessaly",
+        "group": "Mainland",
+        "lat": 39.7040,
+        "lng": 21.6260,
+        "priority": 1,
+        "tags": ["monasteries", "views", "daytrip"]
+      },
+      {
+        "id": "ioannina",
+        "name": "Ioannina",
+        "localName": "Ιωάννινα",
+        "region": "Epirus",
+        "group": "Mainland",
+        "lat": 39.6650,
+        "lng": 20.8530,
+        "priority": 2,
+        "tags": ["lake", "food", "winter"]
+      },
+      {
+        "id": "zagori",
+        "name": "Zagori (Vikos)",
+        "localName": "Ζαγόρι",
+        "region": "Epirus",
+        "group": "Mainland",
+        "lat": 39.8800,
+        "lng": 20.7500,
+        "priority": 2,
+        "tags": ["hiking", "nature", "views"]
+      },
+  
+      {
+        "id": "mystras",
+        "name": "Mystras",
+        "localName": "Μυστράς",
+        "region": "Peloponnese",
+        "group": "Mainland",
+        "lat": 37.0740,
+        "lng": 22.3700,
+        "priority": 2,
+        "tags": ["history", "ruins"]
+      },
+      {
+        "id": "thira-kamari",
+        "name": "Santorini (Kamari)",
+        "localName": "Καμάρι",
+        "region": "South Aegean",
+        "group": "Cyclades",
+        "lat": 36.3750,
+        "lng": 25.4840,
+        "priority": 3,
+        "tags": ["beaches"]
+      },
+      {
+        "id": "crete-elafonisi",
+        "name": "Elafonisi",
+        "localName": "Ελαφονήσι",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.2710,
+        "lng": 23.5410,
+        "priority": 2,
+        "tags": ["beach", "daytrip"]
+      },
+      {
+        "id": "crete-baloss",
+        "name": "Balos Lagoon",
+        "localName": "Μπάλος",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.5860,
+        "lng": 23.5790,
+        "priority": 2,
+        "tags": ["beach", "views", "boat"]
+      },
+  
+      {
+        "id": "volos",
+        "name": "Volos",
+        "localName": "Βόλος",
+        "region": "Thessaly",
+        "group": "Mainland",
+        "lat": 39.3610,
+        "lng": 22.9420,
+        "priority": 3,
+        "tags": ["food", "port"]
+      },
+      {
+        "id": "skiathos-town",
+        "name": "Skiathos Town",
+        "localName": "Σκιάθος",
+        "region": "Thessaly",
+        "group": "Sporades",
+        "lat": 39.1630,
+        "lng": 23.4920,
+        "priority": 2,
+        "tags": ["beaches", "nightlife"]
+      },
+      {
+        "id": "skopelos-town",
+        "name": "Skopelos Town",
+        "localName": "Σκόπελος",
+        "region": "Thessaly",
+        "group": "Sporades",
+        "lat": 39.1210,
+        "lng": 23.7260,
+        "priority": 3,
+        "tags": ["quiet", "beaches"]
+      },
+      {
+        "id": "alonissos-patiti",
+        "name": "Alonissos (Patitiri)",
+        "localName": "Αλόννησος",
+        "region": "Thessaly",
+        "group": "Sporades",
+        "lat": 39.1490,
+        "lng": 23.8640,
+        "priority": 3,
+        "tags": ["nature", "boat"]
+      },
+  
+      {
+        "id": "crete-sitia",
+        "name": "Sitia",
+        "localName": "Σητεία",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.2070,
+        "lng": 26.1040,
+        "priority": 3,
+        "tags": ["quiet", "eastcrete"]
+      },
+      {
+        "id": "crete-ierapetra",
+        "name": "Ierapetra",
+        "localName": "Ιεράπετρα",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.0110,
+        "lng": 25.7360,
+        "priority": 3,
+        "tags": ["sunny", "beaches"]
+      },
+  
+      {
+        "id": "halkidiki-kassandria",
+        "name": "Halkidiki (Kassandra)",
+        "localName": "Χαλκιδική",
+        "region": "Central Macedonia",
+        "group": "Mainland",
+        "lat": 40.0330,
+        "lng": 23.5000,
+        "priority": 2,
+        "tags": ["beaches", "summer"]
+      },
+      {
+        "id": "halkidiki-sithonia",
+        "name": "Halkidiki (Sithonia)",
+        "localName": "Σιθωνία",
+        "region": "Central Macedonia",
+        "group": "Mainland",
+        "lat": 40.1000,
+        "lng": 23.9000,
+        "priority": 2,
+        "tags": ["beaches", "nature"]
+      },
+  
+      {
+        "id": "kavala",
+        "name": "Kavala",
+        "localName": "Καβάλα",
+        "region": "East Macedonia and Thrace",
+        "group": "Mainland",
+        "lat": 40.9396,
+        "lng": 24.4018,
+        "priority": 3,
+        "tags": ["port", "citybreak"]
+      },
+      {
+        "id": "alexandroupoli",
+        "name": "Alexandroupoli",
+        "localName": "Αλεξανδρούπολη",
+        "region": "East Macedonia and Thrace",
+        "group": "Mainland",
+        "lat": 40.8480,
+        "lng": 25.8740,
+        "priority": 4,
+        "tags": ["port"]
+      },
+  
+      {
+        "id": "mytilene",
+        "name": "Lesvos (Mytilene)",
+        "localName": "Μυτιλήνη",
+        "region": "North Aegean",
+        "group": "North Aegean",
+        "lat": 39.1000,
+        "lng": 26.5500,
+        "priority": 3,
+        "tags": ["island", "food"]
+      },
+      {
+        "id": "chios-town",
+        "name": "Chios (Chora)",
+        "localName": "Χίος",
+        "region": "North Aegean",
+        "group": "North Aegean",
+        "lat": 38.3700,
+        "lng": 26.1400,
+        "priority": 3,
+        "tags": ["island", "villages"]
+      },
+      {
+        "id": "samos-vathy",
+        "name": "Samos (Vathy)",
+        "localName": "Σάμος",
+        "region": "North Aegean",
+        "group": "North Aegean",
+        "lat": 37.7540,
+        "lng": 26.9770,
+        "priority": 3,
+        "tags": ["island", "nature"]
+      },
+  
+      {
+        "id": "crete-knossos",
+        "name": "Knossos",
+        "localName": "Κνωσός",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.2980,
+        "lng": 25.1630,
+        "priority": 2,
+        "tags": ["history", "mustsee"]
+      },
+      {
+        "id": "athens-piraeus",
+        "name": "Piraeus",
+        "localName": "Πειραιάς",
+        "region": "Attica",
+        "group": "Mainland",
+        "lat": 37.9420,
+        "lng": 23.6465,
+        "priority": 2,
+        "tags": ["port", "ferries"]
+      },
+      {
+        "id": "athens-glyfada",
+        "name": "Glyfada",
+        "localName": "Γλυφάδα",
+        "region": "Attica",
+        "group": "Mainland",
+        "lat": 37.8650,
+        "lng": 23.7510,
+        "priority": 3,
+        "tags": ["beaches", "food"]
+      },
+  
+      {
+        "id": "crete-agrami-preveli",
+        "name": "Preveli",
+        "localName": "Πρέβελη",
+        "region": "Crete",
+        "group": "Crete",
+        "lat": 35.1540,
+        "lng": 24.4710,
+        "priority": 3,
+        "tags": ["beach", "nature"]
+      },
+  
+      {
+        "id": "thessaloniki-perea",
+        "name": "Perea",
+        "localName": "Περαία",
+        "region": "Central Macedonia",
+        "group": "Mainland",
+        "lat": 40.4980,
+        "lng": 22.9230,
+        "priority": 4,
+        "tags": ["beach", "nearcity"]
+      }
+    ]
+  }

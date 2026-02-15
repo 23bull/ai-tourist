@@ -1,0 +1,54 @@
+{
+  "ui": {
+    "language": "Språk",
+    "seeWhatFitsMeNow": "Se vad som passar mig nu",
+    "hotNow": "Populärt just nu",
+    "hotHint": "Mest populärt just nu · Missa inte",
+    "trendingNow": "Trendande nu",
+    "viewInMaps": "Visa i Maps",
+    "openInMaps": "Öppna i Maps",
+    "openGoogleMaps": "Öppna i Google Maps",
+    "navigate": "Navigera",
+    "moreHotPicks": "Fler heta tips",
+    "popular": "Populärt",
+    "perfectNow": "Perfekt just nu",
+    "score": "Poäng",
+    "goodLaterToday": "Bra senare idag",
+    "tonightNearby": "Ikväll i närheten",
+    "rainFriendly": "Regnvänligt",
+    "preferences": {
+      "title": "Dina preferenser",
+      "audience": "Sällskap",
+      "vibe": "Stämning",
+      "mobility": "Hur tar du dig fram?",
+      "budget": "Budget",
+      "hint": "Tips: Dela länken för att behålla samma preferenser på en annan enhet.",
+      "audienceOptions": {
+        "general": "Allmänt",
+        "solo": "Solo",
+        "couples": "Par",
+        "friends": "Vänner",
+        "family": "Familj"
+      },
+      "vibeOptions": {
+        "food": "Mat",
+        "culture": "Kultur",
+        "views": "Utsikt",
+        "nightlife": "Nattliv",
+        "relax": "Lugnt"
+      },
+      "city": "Stad",
+      
+      "mobilityOptions": {
+        "walk": "Till fots",
+        "car": "Bil",
+        "boat": "Båt"
+      },
+      "budgetOptions": {
+        "low": "Låg",
+        "mid": "Mellan",
+        "high": "Hög"
+      }
+    }
+  }
+}

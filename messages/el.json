@@ -1,0 +1,55 @@
+{
+  "ui": {
+    "language": "Γλώσσα",
+    "seeWhatFitsMeNow": "Δες τι σου ταιριάζει τώρα",
+    "hotNow": "Δημοφιλές αυτή τη στιγμή",
+    "hotHint": "Πιο δημοφιλές τώρα · Μην το χάσεις",
+    "trendingNow": "Σε τάση",
+    "viewInMaps": "Προβολή στους Χάρτες",
+    "openInMaps": "Άνοιγμα στους Χάρτες",
+    "openGoogleMaps": "Άνοιγμα στο Google Maps",
+    "navigate": "Πλοήγηση",
+    "moreHotPicks": "Περισσότερες κορυφαίες επιλογές",
+    "popular": "Δημοφιλές",
+    "perfectNow": "Τέλειο αυτή τη στιγμή",
+    "score": "Βαθμολογία",
+    "goodLaterToday": "Καλό για αργότερα σήμερα",
+    "tonightNearby": "Απόψε κοντά σου",
+    "rainFriendly": "Κατάλληλο για βροχή",
+    "preferences": {
+      "title": "Οι προτιμήσεις σου",
+      "audience": "Παρέα",
+      "vibe": "Ατμόσφαιρα",
+      "mobility": "Μετακίνηση",
+      "budget": "Προϋπολογισμός",
+      "hint": "Συμβουλή: Μοιράσου το link για να κρατήσεις τις ίδιες προτιμήσεις σε άλλη συσκευή.",
+      "audienceOptions": {
+        "general": "Γενικά",
+        "solo": "Μόνος/η",
+        "couples": "Ζευγάρια",
+        "friends": "Φίλοι",
+        "family": "Οικογένεια"
+      },
+      "vibeOptions": {
+        "food": "Φαγητό",
+        "culture": "Πολιτισμός",
+        "views": "Θέα",
+        "nightlife": "Νυχτερινή ζωή",
+        "relax": "Χαλαρά"
+      },
+
+      "city": "Πόλη",
+      
+      "mobilityOptions": {
+        "walk": "Με τα πόδια",
+        "car": "Αυτοκίνητο",
+        "boat": "Σκάφος"
+      },
+      "budgetOptions": {
+        "low": "Χαμηλό",
+        "mid": "Μεσαίο",
+        "high": "Υψηλό"
+      }
+    }
+  }
+}

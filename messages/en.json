@@ -1,0 +1,53 @@
+{
+  "ui": {
+    "language": "Language",
+    "seeWhatFitsMeNow": "See what fits me now",
+    "hotNow": "Hot right now",
+    "hotHint": "Most popular right now · Don't miss it",
+    "trendingNow": "Trending now",
+    "viewInMaps": "View in Maps",
+    "openInMaps": "Open in Maps",
+    "openGoogleMaps": "Open in Google Maps",
+    "navigate": "Navigate",
+    "moreHotPicks": "More hot picks",
+    "popular": "Popular",
+    "perfectNow": "Perfect right now",
+    "score": "Score",
+    "goodLaterToday": "Good later today",
+    "tonightNearby": "Tonight nearby",
+    "rainFriendly": "Rain-friendly",
+    "preferences": {
+      "title": "Your preferences",
+      "city": "City",
+      "audience": "Group",
+      "vibe": "Vibe",
+      "mobility": "Mobility",
+      "budget": "Budget",
+      "hint": "Tip: Share this URL to keep the same preferences on another device.",
+      "audienceOptions": {
+        "general": "General",
+        "solo": "Solo",
+        "couples": "Couples",
+        "friends": "Friends",
+        "family": "Family"
+      },
+      "vibeOptions": {
+        "food": "Food",
+        "culture": "Culture",
+        "views": "Views",
+        "nightlife": "Nightlife",
+        "relax": "Relax"
+      },
+      "mobilityOptions": {
+        "walk": "Walk",
+        "car": "Car",
+        "boat": "Boat"
+      },
+      "budgetOptions": {
+        "low": "Low",
+        "mid": "Mid",
+        "high": "High"
+      }
+    }
+  }
+}
