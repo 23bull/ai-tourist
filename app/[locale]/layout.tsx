@@ -2,15 +2,18 @@ import "../global.css";
 import {NextIntlClientProvider} from "next-intl";
 import {getMessages} from "next-intl/server";
 import LocaleSwitcher from "./components/LocaleSwitcher";
+import {ReactNode} from "react";
+
+type Props = {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+};
 
 export default async function LocaleLayout({
   children,
   params
-}: {
-  children: React.ReactNode;
-  params: {locale: string};
-}) {
-  const {locale} = params;
+}: Props) {
+  const {locale} = await params;   // 👈 viktigt
   const messages = await getMessages();
 
   return (
