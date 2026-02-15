@@ -16,6 +16,8 @@ export type GreeceCity = {
   priority?: number;
   tags?: string[];
 
+  isActive?: boolean;
+
   defaultRadiusMeters?: number;
 
   searchAreas?: Array<{
@@ -42,15 +44,21 @@ function normalizeId(value: unknown): string {
   return String(value ?? "").trim().toLowerCase();
 }
 
+function toStringArray(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return value.map((v) => String(v)).filter(Boolean);
+}
+
 function normalizeCity(raw: any): GreeceCity | null {
   const id = normalizeId(raw?.id ?? raw?.slug);
   if (!id) return null;
 
-  const slug = id;
-
   const lat = Number(raw?.lat);
   const lng = Number(raw?.lng);
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    return null;
+  }
 
   const searchAreas = Array.isArray(raw?.searchAreas)
     ? raw.searchAreas
@@ -58,23 +66,19 @@ function normalizeCity(raw: any): GreeceCity | null {
           lat: Number(a?.lat),
           lng: Number(a?.lng),
           radius:
-            typeof a?.radius === "number"
+            typeof a?.radius === "number" && a.radius > 0
               ? a.radius
               : undefined
         }))
         .filter(
-          (a: {
-            lat: number;
-            lng: number;
-          }) =>
-            Number.isFinite(a.lat) &&
-            Number.isFinite(a.lng)
+          (a: { lat: number; lng: number }) =>
+            Number.isFinite(a.lat) && Number.isFinite(a.lng)
         )
     : undefined;
 
   return {
     id,
-    slug,
+    slug: id,
 
     name: String(raw?.name ?? ""),
     localName: raw?.localName
@@ -94,52 +98,47 @@ function normalizeCity(raw: any): GreeceCity | null {
         ? raw.priority
         : undefined,
 
-    tags: Array.isArray(raw?.tags)
-      ? raw.tags.map(String)
-      : undefined,
+    tags: toStringArray(raw?.tags),
+
+    isActive:
+      raw?.isActive === false ? false : true,
 
     defaultRadiusMeters:
-      typeof raw?.defaultRadiusMeters === "number"
+      typeof raw?.defaultRadiusMeters === "number" &&
+      raw.defaultRadiusMeters > 0
         ? raw.defaultRadiusMeters
         : undefined,
 
     searchAreas,
 
-    preferredTypes: Array.isArray(
-      raw?.preferredTypes
-    )
-      ? raw.preferredTypes.map(String)
-      : undefined,
+    preferredTypes: toStringArray(raw?.preferredTypes),
 
-    featuredPlaceIds: Array.isArray(
-      raw?.featuredPlaceIds
-    )
-      ? raw.featuredPlaceIds.map(String)
-      : undefined
+    featuredPlaceIds: toStringArray(raw?.featuredPlaceIds)
   };
 }
 
-const ALL_CITIES: GreeceCity[] = (
-  data.cities ?? []
-)
-  .map(normalizeCity)
-  .filter(
-    (c): c is GreeceCity => Boolean(c)
-  )
-  .sort(
-    (a, b) =>
-      (a.priority ?? 999) -
-      (b.priority ?? 999)
-  );
+/*
+  Bygg en gång och frys listan.
+  Endast aktiva städer.
+*/
+const ALL_CITIES: ReadonlyArray<GreeceCity> = Object.freeze(
+  (data.cities ?? [])
+    .map(normalizeCity)
+    .filter((c): c is GreeceCity => c !== null && c.isActive !== false)
+    .sort(
+      (a, b) =>
+        (a.priority ?? 999) -
+        (b.priority ?? 999)
+    )
+);
 
-export function getAllCities(): GreeceCity[] {
+export function getAllCities(): ReadonlyArray<GreeceCity> {
   return ALL_CITIES;
 }
 
 export function getCityBySlug(
   slug: string | null | undefined
 ): GreeceCity | null {
-  if (!slug) return null;
 
   const s = normalizeId(slug);
 
@@ -184,10 +183,25 @@ export function getCityRadiusMeters(
       city.defaultRadiusMeters
     ) &&
     (city.defaultRadiusMeters as number) >
-      0
+        0
   ) {
     return city.defaultRadiusMeters as number;
   }
 
   return getGlobalDefaultRadiusMeters();
+}
+
+/*
+  🔥 Ny funktion – framtida monetisering
+  Kolla om ett placeId är featured i en stad
+*/
+export function isFeaturedPlace(
+  city: GreeceCity,
+  placeId: string
+): boolean {
+  return (
+    city.featuredPlaceIds?.includes(
+      placeId
+    ) ?? false
+  );
 }
