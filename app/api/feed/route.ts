@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { scorePlace } from "@/lib/scorePlace";
+import { getLiveWeather } from "@/lib/weather";
 import {
   getCityBySlug,
   getDefaultCity,
@@ -117,6 +118,13 @@ export async function GET(req: Request) {
   };
 
   const now = new Date();
+  const userLat = selectedCity.lat;
+  const userLng = selectedCity.lng;
+
+  const liveWeather = await getLiveWeather(
+    userLat,
+    userLng
+  );
 
   const typesToFetch = [
     "tourist_attraction",
@@ -128,8 +136,6 @@ export async function GET(req: Request) {
     "bar"
   ];
 
-  const userLat = selectedCity.lat;
-  const userLng = selectedCity.lng;
 
   const fetched = await Promise.all(
     typesToFetch.map((type) =>
@@ -194,6 +200,7 @@ export async function GET(req: Request) {
     const scored = places.map((p) => {
       const s = scorePlace({
         placeId: p.place_id,
+        liveWeather: liveWeather ?? undefined,
         featuredIds: selectedCity.featuredPlaceIds,
         now,
         userLat,

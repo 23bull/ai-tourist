@@ -159,128 +159,164 @@ export default async function Home({
   const res = await fetch(apiUrl, {cache: "no-store"});
   const data = (await res.json()) as ApiPayload;
 
-  if (!data?.ok) {
+  if (data?.ok) {
+    const ctx = data.context;
+    const hotNow = data.sections?.hotNow ?? data.results ?? [];
+    const laterToday = data.sections?.laterToday ?? [];
+    const evening = data.sections?.evening ?? [];
+    const rainy = data.sections?.rainy ?? [];
+    const hottest = hotNow?.[0];
+  
     return (
-      <main style={{padding: 24, maxWidth: 760, margin: "0 auto"}}>
-        <h1 style={{marginTop: 0}}>AI Tourist</h1>
-        <pre style={{whiteSpace: "pre-wrap"}}>{JSON.stringify({apiUrl, data}, null, 2)}</pre>
-      </main>
+      <>
+        {/* HERO */}
+<div className="hero">
+  <div className="heroOverlay">
+    <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: 12,
+          flexWrap: "wrap"
+        }}
+      >
+        <div style={{ flex: 1, minWidth: 280 }}>
+          <PreferencesBar
+            cities={cities}
+            defaultCityId={selectedCity.slug}
+          />
+        </div>
+      </div>
+
+      <div style={{ marginTop: 24 }}>
+        <p className="heroSubtitle">
+          Personalised recommendations based on your mood, weather and time of day.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+        <main className="pageContent">
+          <div style={{ fontSize: 12, opacity: 0.7, marginBottom: 12 }}>
+            {ctx
+              ? `${new Date(ctx.time).toLocaleString()} · ${ctx.weather} · ${ctx.radius}m`
+              : ""}
+          </div>
+  
+          {hottest ? (
+            <div className="heroWrap">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  gap: 12
+                }}
+              >
+                <h2 className="hotTitle">
+                  <span className="bolt">
+                    <LightningIcon />
+                  </span>
+                  {tt("ui.hotNow")}
+                </h2>
+  
+                <div className="subtle" style={{ fontSize: 12 }}>
+                  {tt("ui.hotHint")}
+                </div>
+              </div>
+  
+              <div className="heroCard">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    alignItems: "baseline"
+                  }}
+                >
+                  <div className="heroBadge">{tt("ui.trendingNow")}</div>
+                  <a
+                    href={hottest.maps_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: 12, opacity: 0.75 }}
+                  >
+                    {tt("ui.viewInMaps")} →
+                  </a>
+                </div>
+  
+                <h3 className="heroTitle" style={{ marginTop: 10 }}>
+                  {hottest.name}
+                </h3>
+  
+                <div className="heroMeta muted">
+                  <div>
+                    {hottest.rating
+                      ? `⭐ ${hottest.rating} (${hottest.user_ratings_total ?? 0})`
+                      : `⭐ ${tt("ui.popular")}`}{" "}
+                    {hottest.distance_km !== undefined
+                      ? `· ${hottest.distance_km} km`
+                      : ""}{" "}
+                    {hottest.score !== undefined
+                      ? `· ${tt("ui.score")} ${hottest.score}`
+                      : ""}
+                  </div>
+                  <div style={{ marginTop: 4 }}>
+                    {(hottest.reason ?? tt("ui.perfectNow"))} ·{" "}
+                    {hottest.vicinity ?? ""}
+                  </div>
+                </div>
+  
+                <div className="heroCTArow">
+                  <a
+                    className="pill pillPrimary"
+                    href={hottest.maps_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {tt("ui.openInMaps")}
+                  </a>
+                  <a
+                    className="pill"
+                    href={`${hottest.maps_url}&travelmode=walking`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {tt("ui.navigate")}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ) : null}
+  
+          <Section
+            title={`🕓 ${tt("ui.goodLaterToday")}`}
+            items={laterToday}
+            t={tt}
+          />
+          <Section
+            title={`🌙 ${tt("ui.tonightNearby")}`}
+            items={evening}
+            t={tt}
+          />
+          <Section
+            title={`🌧 ${tt("ui.rainFriendly")}`}
+            items={rainy}
+            t={tt}
+          />
+        </main>
+      </>
     );
   }
-
-  const ctx = data.context;
-
-  const hotNow = data.sections?.hotNow ?? data.results ?? [];
-  const laterToday = data.sections?.laterToday ?? [];
-  const evening = data.sections?.evening ?? [];
-  const rainy = data.sections?.rainy ?? [];
-
-  const hottest = hotNow?.[0];
-
+  
   return (
-    <main style={{padding: 24, maxWidth: 760, margin: "0 auto"}}>
-      {/* Top row: Preferences (includes city) */}
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap"}}>
-        <div style={{flex: 1, minWidth: 280}}>
-          <PreferencesBar cities={cities} defaultCityId={selectedCity.slug} />
-        </div>
-      </div>
-
-      {/* Header */}
-      <div style={{marginBottom: 14, marginTop: 14}}>
-        <div style={{display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline"}}>
-          <h1 style={{margin: 0}}>AI Tourist</h1>
-          <div style={{fontSize: 12, opacity: 0.7, textAlign: "right"}}>
-            {ctx ? `${new Date(ctx.time).toLocaleString()} · ${ctx.weather} · ${ctx.radius}m` : ""}
-          </div>
-        </div>
-
-        <div style={{marginTop: 10}}>
-          <a
-            href="#hot"
-            style={{
-              display: "inline-block",
-              padding: "10px 14px",
-              borderRadius: 10,
-              background: "#111",
-              color: "white",
-              textDecoration: "none",
-              fontWeight: 650
-            }}
-          >
-            🎯 {tt("ui.seeWhatFitsMeNow")}
-          </a>
-        </div>
-      </div>
-
-      <div id="hot" />
-
-      {/* Hero */}
-      {hottest ? (
-        <div className="heroWrap">
-          <div style={{display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12}}>
-            <h2 className="hotTitle">
-              <span className="bolt">
-                <LightningIcon />
-              </span>
-              {tt("ui.hotNow")}
-            </h2>
-
-            <div className="subtle" style={{fontSize: 12}}>
-              {tt("ui.hotHint")}
-            </div>
-          </div>
-
-          <div className="heroCard">
-            <div style={{display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline"}}>
-              <div className="heroBadge">{tt("ui.trendingNow")}</div>
-              <a href={hottest.maps_url} target="_blank" rel="noreferrer" style={{fontSize: 12, opacity: 0.75}}>
-                {tt("ui.viewInMaps")} →
-              </a>
-            </div>
-
-            <h3 className="heroTitle" style={{marginTop: 10}}>
-              {hottest.name}
-            </h3>
-
-            <div className="heroMeta muted">
-              <div>
-                {hottest.rating ? `⭐ ${hottest.rating} (${hottest.user_ratings_total ?? 0})` : `⭐ ${tt("ui.popular")}`}{" "}
-                {hottest.distance_km !== undefined ? `· ${hottest.distance_km} km` : ""}{" "}
-                {hottest.score !== undefined ? `· ${tt("ui.score")} ${hottest.score}` : ""}
-              </div>
-              <div style={{marginTop: 4}}>
-                {(hottest.reason ?? tt("ui.perfectNow"))} · {hottest.vicinity ?? ""}
-              </div>
-            </div>
-
-            <div className="heroCTArow">
-              <a className="pill pillPrimary" href={hottest.maps_url} target="_blank" rel="noreferrer">
-                {tt("ui.openInMaps")}
-              </a>
-              <a className="pill" href={`${hottest.maps_url}&travelmode=walking`} target="_blank" rel="noreferrer">
-                {tt("ui.navigate")}
-              </a>
-              <a className="pill" href="#more-hot">
-                {tt("ui.moreHotPicks")}
-              </a>
-            </div>
-          </div>
-
-          <div id="more-hot" style={{marginTop: 14}}>
-            <div className="rowScroll">
-              {hotNow.slice(1, 8).map((p) => (
-                <Card key={p.place_id} p={p} t={tt} />
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {/* Other sections */}
-      <Section title={`🕓 ${tt("ui.goodLaterToday")}`} items={laterToday} t={tt} />
-      <Section title={`🌙 ${tt("ui.tonightNearby")}`} items={evening} t={tt} />
-      <Section title={`🌧 ${tt("ui.rainFriendly")}`} items={rainy} t={tt} />
+    <main style={{ padding: 40 }}>
+      <h1>API error</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </main>
   );
 }

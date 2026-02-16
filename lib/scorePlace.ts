@@ -52,54 +52,46 @@ function guessIndoor(types?: string[]) {
   return indoorTypes.some((x) => t.has(x));
 }
 
-function weatherFit(indoor: boolean, weather: Weather) {
-  const rainy = weather === "rain" || weather === "storm";
-  if (indoor) return rainy ? 1.0 : 0.7;
-  return rainy ? 0.25 : 1.0;
-}
-
-function preferenceBoost(
-  types: string[] | undefined,
-  vibe: Vibe,
-  audience: Audience
+function advancedWeatherScore(
+  indoor: boolean,
+  live?: {
+    temperature: number;
+    precipitation: number;
+    precipitationProbability: number;
+    windSpeed: number;
+    cloudCover: number;
+  }
 ) {
-  const t = normTypes(types);
-  let boost = 0;
+  if (!live) return 0.7;
 
-  if (vibe === "food" && (t.has("restaurant") || t.has("cafe")))
-    boost += 0.2;
+  let score = 1;
 
-  if (
-    vibe === "culture" &&
-    (t.has("museum") || t.has("art_gallery"))
-  )
-    boost += 0.2;
+  // Regn
+  if (live.precipitation > 2 || live.precipitationProbability > 70) {
+    if (!indoor) score -= 0.5;
+  }
 
-  if (
-    vibe === "views" &&
-    (t.has("tourist_attraction") || t.has("park"))
-  )
-    boost += 0.15;
+  // Vind (viktigt på öar)
+  if (live.windSpeed > 40) {
+    score -= indoor ? 0.05 : 0.3;
+  }
 
-  if (
-    vibe === "nightlife" &&
-    (t.has("bar") || t.has("night_club"))
-  )
-    boost += 0.15;
+  // Extrem värme
+  if (live.temperature > 34) {
+    score -= indoor ? 0 : 0.25;
+  }
 
-  if (vibe === "relax" && (t.has("park") || t.has("spa")))
-    boost += 0.15;
+  // Kallt väder
+  if (live.temperature < 8) {
+    score -= indoor ? 0 : 0.2;
+  }
 
-  if (audience === "family" && (t.has("park") || t.has("aquarium")))
-    boost += 0.1;
+  // Tjockt molntäcke
+  if (live.cloudCover > 85) {
+    score -= indoor ? 0 : 0.15;
+  }
 
-  if (audience === "couples" && t.has("restaurant"))
-    boost += 0.08;
-
-  if (audience === "friends" && t.has("bar"))
-    boost += 0.08;
-
-  return clamp01(boost);
+  return clamp01(score);
 }
 
 function mobilityDistanceMultiplier(mobility: Mobility) {
@@ -164,6 +156,85 @@ function buildReasonText(args: {
 
   return parts.slice(0, 3).join(" · ");
 }
+function timeOfDayFit(
+  now: Date,
+  types: string[] | undefined
+) {
+  const hour = now.getHours();
+  const t = new Set((types ?? []).map(x => x.toLowerCase()));
+
+  const isMorning = hour >= 6 && hour < 11;
+  const isLunch = hour >= 11 && hour < 15;
+  const isAfternoon = hour >= 15 && hour < 18;
+  const isEvening = hour >= 18 && hour < 23;
+  const isLateNight = hour >= 23 || hour < 3;
+
+  let score = 0.7; // neutral baseline
+
+  // MORNING
+  if (isMorning) {
+    if (t.has("cafe") || t.has("bakery") || t.has("park")) score += 0.25;
+    if (t.has("night_club") || t.has("bar")) score -= 0.3;
+  }
+
+  // LUNCH
+  if (isLunch) {
+    if (t.has("restaurant") || t.has("meal_takeaway")) score += 0.25;
+  }
+
+  // AFTERNOON
+  if (isAfternoon) {
+    if (t.has("museum") || t.has("tourist_attraction") || t.has("park")) score += 0.2;
+  }
+
+  // EVENING
+  if (isEvening) {
+    if (t.has("restaurant") || t.has("bar")) score += 0.25;
+  }
+
+  // LATE NIGHT
+  if (isLateNight) {
+    if (t.has("bar") || t.has("night_club")) score += 0.3;
+    if (t.has("museum") || t.has("park")) score -= 0.3;
+  }
+
+  return clamp01(score);
+}
+
+function preferenceBoost(
+  types: string[] | undefined,
+  vibe: Vibe,
+  audience: Audience
+) {
+  const t = normTypes(types);
+  let boost = 0;
+
+  if (vibe === "food" && (t.has("restaurant") || t.has("cafe")))
+    boost += 0.2;
+
+  if (vibe === "culture" && (t.has("museum") || t.has("art_gallery")))
+    boost += 0.2;
+
+  if (vibe === "views" && (t.has("tourist_attraction") || t.has("park")))
+    boost += 0.15;
+
+  if (vibe === "nightlife" && (t.has("bar") || t.has("night_club")))
+    boost += 0.15;
+
+  if (vibe === "relax" && (t.has("park") || t.has("spa")))
+    boost += 0.15;
+
+  if (audience === "family" && (t.has("park") || t.has("aquarium")))
+    boost += 0.1;
+
+  if (audience === "couples" && t.has("restaurant"))
+    boost += 0.08;
+
+  if (audience === "friends" && t.has("bar"))
+    boost += 0.08;
+
+  return clamp01(boost);
+}
 
 export function scorePlace(params: {
   placeId?: string;
@@ -196,6 +267,15 @@ export function scorePlace(params: {
     mobility: Mobility;
     budget: Budget;
   };
+
+  liveWeather?: {
+    temperature: number;
+    precipitation: number;
+    precipitationProbability: number;
+    windSpeed: number;
+    cloudCover: number;
+  };
+  
 }) {
   const km = haversineKm(
     params.userLat,
@@ -204,6 +284,12 @@ export function scorePlace(params: {
     params.placeLng
   );
 
+  const timeScore = timeOfDayFit(
+    params.now,
+    params.types
+  );
+
+
   // 🔥 Hard cap distance
   const hardCap =
     params.prefs.mobility === "walk" ? 7.5 : 25;
@@ -211,7 +297,10 @@ export function scorePlace(params: {
   const hardPenalty = km > hardCap ? 0 : 1;
 
   const indoor = guessIndoor(params.types);
-  const wfit = weatherFit(indoor, params.weather);
+  const wfit = advancedWeatherScore(
+    indoor,
+    params.liveWeather
+  );
 
   const distScore =
     clamp01(1 - km / 10) *
@@ -244,40 +333,20 @@ export function scorePlace(params: {
   );
 
   const weights =
-    params.section === "rainy"
-      ? {
-          dist: 1.2,
-          open: 2,
-          weather: 4,
-          rating: 1.2,
-          pref: 1.5,
-          budget: 1
-        }
-      : params.section === "evening"
-      ? {
-          dist: 1.5,
-          open: 2.5,
-          weather: 1.2,
-          rating: 1.3,
-          pref: 1.6,
-          budget: 1
-        }
-      : {
-          dist: 2,
-          open: 3,
-          weather: 2,
-          rating: 1.5,
-          pref: 1.8,
-          budget: 1
-        };
+  params.section === "rainy"
+    ? { dist: 1.2, open: 2, weather: 4, rating: 1.2, pref: 1.5, budget: 1, time: 1.2 }
+    : params.section === "evening"
+    ? { dist: 1.5, open: 2.5, weather: 1.2, rating: 1.3, pref: 1.6, budget: 1, time: 2 }
+    : { dist: 2, open: 3, weather: 2, rating: 1.5, pref: 1.8, budget: 1, time: 1.5 };
 
-  const raw =
+    const raw =
     weights.dist * distScore +
     weights.open * openScore +
     weights.weather * wfit +
     weights.rating * ratingScore +
     weights.pref * prefBoost +
-    weights.budget * budgetScore;
+    weights.budget * budgetScore +
+    weights.time * timeScore;
 
   const max = Object.values(weights).reduce(
     (s, v) => s + v,
