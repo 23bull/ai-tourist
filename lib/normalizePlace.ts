@@ -1,23 +1,29 @@
-import { Place } from "@/types/place";
+import { Place, PlaceCategory } from "@/types/place";
 import { randomUUID } from "crypto";
 
 export function normalizeGooglePlace(p: any): Place {
+  const lat = Number(p?.geometry?.location?.lat);
+  const lng = Number(p?.geometry?.location?.lng);
+
   return {
     id: randomUUID(),
-    googlePlaceId: p.place_id,
+    googlePlaceId: String(p?.place_id ?? randomUUID()),
 
-    name: p.name,
-    city: "Athens",
-    address: p.vicinity,
+    name: String(p?.name ?? "Unknown place"),
+    city: "Athens", // kan senare göras dynamisk
+    address: String(p?.vicinity ?? ""),
 
-    lat: p.geometry?.location?.lat,
-    lng: p.geometry?.location?.lng,
+    lat: Number.isFinite(lat) ? lat : 0,
+    lng: Number.isFinite(lng) ? lng : 0,
 
-    categories: mapGoogleTypes(p.types),
+    categories: mapGoogleTypes(p?.types),
     tags: [],
 
-    rating: p.rating,
-    reviewCount: p.user_ratings_total,
+    rating: typeof p?.rating === "number" ? p.rating : undefined,
+    reviewCount:
+      typeof p?.user_ratings_total === "number"
+        ? p.user_ratings_total
+        : 0,
 
     aiScore: 0,
     popularityScore: 0,
@@ -32,14 +38,18 @@ export function normalizeGooglePlace(p: any): Place {
   };
 }
 
-function mapGoogleTypes(types: string[]) {
+function mapGoogleTypes(types?: string[]): PlaceCategory[] {
   if (!types) return ["other"];
 
-  if (types.includes("restaurant")) return ["restaurant"];
-  if (types.includes("cafe")) return ["cafe"];
-  if (types.includes("museum")) return ["museum"];
-  if (types.includes("park")) return ["park"];
-  if (types.includes("tourist_attraction")) return ["landmark"];
+  const normalized = types.map((t) => t.toLowerCase());
+
+  if (normalized.includes("restaurant")) return ["restaurant"];
+  if (normalized.includes("cafe")) return ["cafe"];
+  if (normalized.includes("museum")) return ["museum"];
+  if (normalized.includes("park")) return ["park"];
+  if (normalized.includes("tourist_attraction")) return ["landmark"];
+  if (normalized.includes("bar") || normalized.includes("night_club"))
+    return ["nightlife"];
 
   return ["other"];
 }

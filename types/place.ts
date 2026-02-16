@@ -1,14 +1,18 @@
-export type PlaceCategory =
-  | "landmark"
-  | "restaurant"
-  | "cafe"
-  | "bar"
-  | "museum"
-  | "park"
-  | "viewpoint"
-  | "activity"
-  | "hidden"
-  | "other";
+export const PLACE_CATEGORIES = [
+  "restaurant",
+  "cafe",
+  "museum",
+  "park",
+  "landmark",
+  "nightlife",
+  "beach",
+  "nature",
+  "viewpoint",
+  "bar",
+  "other"
+] as const;
+
+export type PlaceCategory = typeof PLACE_CATEGORIES[number];
 
 export type Place = {
   id: string;                     // internt ID (uuid)
