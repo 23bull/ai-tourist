@@ -12,12 +12,20 @@
     "moreHotPicks": "Fler heta tips",
     "popular": "Populärt",
     "perfectNow": "Perfekt just nu",
+    "perfectWeather": "Perfekt i det här vädret",
+    "goodInWeather": "Bra val i det här vädret",
+    "openNow": "Öppet nu",
+    "nearby": "Nära",
+    "highRated": "Högt betyg",
+    "matches": "Matchar",
+    "perfectNow": "Perfekt just nu",
     "score": "Poäng",
     "goodLaterToday": "Bra senare idag",
     "tonightNearby": "Ikväll i närheten",
     "rainFriendly": "Regnvänligt",
     "preferences": {
       "title": "Dina preferenser",
+      "city": "Stad",
       "audience": "Sällskap",
       "vibe": "Stämning",
       "mobility": "Hur tar du dig fram?",
@@ -37,8 +45,6 @@
         "nightlife": "Nattliv",
         "relax": "Lugnt"
       },
-      "city": "Stad",
-      
       "mobilityOptions": {
         "walk": "Till fots",
         "car": "Bil",
@@ -50,5 +56,12 @@
         "high": "Hög"
       }
     }
+  },
+  "vibe": {
+    "food": "Mat",
+    "culture": "Kultur",
+    "views": "Utsikt",
+    "nightlife": "Nattliv",
+    "relax": "Avkoppling"
   }
 }
