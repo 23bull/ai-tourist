@@ -12,20 +12,27 @@
     "moreHotPicks": "Flere hete tips",
     "popular": "Populært",
     "perfectNow": "Perfekt akkurat nå",
+    "perfectWeather": "Perfekt i dette været",
+    "goodInWeather": "Bra valg i dette været",
+    "openNow": "Åpent nå",
+    "nearby": "I nærheten",
+    "highRated": "Høyt vurdert",
+    "matches": "Matcher",
     "score": "Poeng",
     "goodLaterToday": "Bra senere i dag",
     "tonightNearby": "I kveld i nærheten",
     "rainFriendly": "Regnvennlig",
     "preferences": {
       "title": "Dine preferanser",
+      "city": "By",
       "audience": "Følge",
       "vibe": "Stemning",
-      "mobility": "Hvordan kommer du deg rundt?",
+      "mobility": "Transport",
       "budget": "Budsjett",
-      "hint": "Tips: Del lenken for å beholde de samme preferansene på en annen enhet.",
+      "hint": "Tips: Del lenken for å beholde preferansene på en annen enhet.",
       "audienceOptions": {
         "general": "Generelt",
-        "solo": "Solo",
+        "solo": "Alene",
         "couples": "Par",
         "friends": "Venner",
         "family": "Familie"
@@ -35,12 +42,10 @@
         "culture": "Kultur",
         "views": "Utsikt",
         "nightlife": "Uteliv",
-        "relax": "Rolig"
+        "relax": "Avslapning"
       },
-      "city": "By",
-      
       "mobilityOptions": {
-        "walk": "Til fots",
+        "walk": "Gå",
         "car": "Bil",
         "boat": "Båt"
       },
@@ -50,5 +55,12 @@
         "high": "Høy"
       }
     }
+  },
+  "vibe": {
+    "food": "Mat",
+    "culture": "Kultur",
+    "views": "Utsikt",
+    "nightlife": "Uteliv",
+    "relax": "Avslapning"
   }
 }

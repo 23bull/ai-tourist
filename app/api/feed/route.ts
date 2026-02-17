@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { scorePlace } from "@/lib/scorePlace";
-import { getLiveWeather } from "@/lib/weather";
 import {
   getCityBySlug,
   getDefaultCity,
@@ -121,11 +120,6 @@ export async function GET(req: Request) {
   const userLat = selectedCity.lat;
   const userLng = selectedCity.lng;
 
-  const liveWeather = await getLiveWeather(
-    userLat,
-    userLng
-  );
-
   const typesToFetch = [
     "tourist_attraction",
     "museum",
@@ -135,7 +129,6 @@ export async function GET(req: Request) {
     "cafe",
     "bar"
   ];
-
 
   const fetched = await Promise.all(
     typesToFetch.map((type) =>
@@ -193,6 +186,8 @@ export async function GET(req: Request) {
     )
     .slice(0, 80);
 
+  const liveWeather = undefined;
+
   function buildSection(
     section: "hotNow" | "laterToday" | "evening" | "rainy",
     n: number
@@ -200,8 +195,8 @@ export async function GET(req: Request) {
     const scored = places.map((p) => {
       const s = scorePlace({
         placeId: p.place_id,
-        liveWeather: liveWeather ?? undefined,
         featuredIds: selectedCity.featuredPlaceIds,
+        liveWeather,
         now,
         userLat,
         userLng,
@@ -226,7 +221,8 @@ export async function GET(req: Request) {
         maps_url: p.maps_url,
         distance_km: Number(s.km.toFixed(1)),
         score: s.score,
-        reason: s.reason
+        reasonTokens: s.reasonTokens,
+        featured: s.featured
       };
     });
 
@@ -249,6 +245,7 @@ export async function GET(req: Request) {
       const s = scorePlace({
         placeId: p.place_id,
         featuredIds,
+        liveWeather,
         now,
         userLat,
         userLng,
@@ -273,14 +270,12 @@ export async function GET(req: Request) {
         maps_url: p.maps_url,
         distance_km: Number(s.km.toFixed(1)),
         score: s.score,
-        reason: "Utvalt · " + s.reason
+        reasonTokens: ["featured", ...(s.reasonTokens ?? [])],
+        featured: true
       };
     });
 
-    const threshold = 55;
-
     return scored
-      .filter((p) => p.score >= threshold)
       .sort((a, b) => b.score - a.score)
       .slice(0, 4);
   }

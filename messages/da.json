@@ -9,23 +9,30 @@
     "openInMaps": "Åbn i Maps",
     "openGoogleMaps": "Åbn i Google Maps",
     "navigate": "Navigér",
-    "moreHotPicks": "Flere hotte valg",
+    "moreHotPicks": "Flere varme anbefalinger",
     "popular": "Populært",
     "perfectNow": "Perfekt lige nu",
+    "perfectWeather": "Perfekt i dette vejr",
+    "goodInWeather": "Godt valg i dette vejr",
+    "openNow": "Åben nu",
+    "nearby": "I nærheden",
+    "highRated": "Højt vurderet",
+    "matches": "Matcher",
     "score": "Score",
-    "goodLaterToday": "God senere i dag",
+    "goodLaterToday": "Godt senere i dag",
     "tonightNearby": "I aften i nærheden",
     "rainFriendly": "Regnvenlig",
     "preferences": {
       "title": "Dine præferencer",
+      "city": "By",
       "audience": "Selskab",
       "vibe": "Stemning",
-      "mobility": "Hvordan kommer du rundt?",
+      "mobility": "Transport",
       "budget": "Budget",
-      "hint": "Tip: Del linket for at beholde de samme præferencer på en anden enhed.",
+      "hint": "Tip: Del linket for at beholde præferencerne på en anden enhed.",
       "audienceOptions": {
         "general": "Generelt",
-        "solo": "Solo",
+        "solo": "Alene",
         "couples": "Par",
         "friends": "Venner",
         "family": "Familie"
@@ -35,13 +42,10 @@
         "culture": "Kultur",
         "views": "Udsigt",
         "nightlife": "Natteliv",
-        "relax": "Roligt"
+        "relax": "Afslapning"
       },
-
-      "city": "By",
-      
       "mobilityOptions": {
-        "walk": "Til fods",
+        "walk": "Gå",
         "car": "Bil",
         "boat": "Båd"
       },
@@ -51,5 +55,12 @@
         "high": "Høj"
       }
     }
+  },
+  "vibe": {
+    "food": "Mad",
+    "culture": "Kultur",
+    "views": "Udsigt",
+    "nightlife": "Natteliv",
+    "relax": "Afslapning"
   }
 }

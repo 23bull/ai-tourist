@@ -1,4 +1,5 @@
 // scorePlace.ts
+import { advancedWeatherScore } from "@/lib/weather";
 
 type Weather = "sunny" | "cloudy" | "rain" | "storm";
 type Mobility = "walk" | "car" | "boat";
@@ -52,48 +53,6 @@ function guessIndoor(types?: string[]) {
   return indoorTypes.some((x) => t.has(x));
 }
 
-function advancedWeatherScore(
-  indoor: boolean,
-  live?: {
-    temperature: number;
-    precipitation: number;
-    precipitationProbability: number;
-    windSpeed: number;
-    cloudCover: number;
-  }
-) {
-  if (!live) return 0.7;
-
-  let score = 1;
-
-  // Regn
-  if (live.precipitation > 2 || live.precipitationProbability > 70) {
-    if (!indoor) score -= 0.5;
-  }
-
-  // Vind (viktigt på öar)
-  if (live.windSpeed > 40) {
-    score -= indoor ? 0.05 : 0.3;
-  }
-
-  // Extrem värme
-  if (live.temperature > 34) {
-    score -= indoor ? 0 : 0.25;
-  }
-
-  // Kallt väder
-  if (live.temperature < 8) {
-    score -= indoor ? 0 : 0.2;
-  }
-
-  // Tjockt molntäcke
-  if (live.cloudCover > 85) {
-    score -= indoor ? 0 : 0.15;
-  }
-
-  return clamp01(score);
-}
-
 function mobilityDistanceMultiplier(mobility: Mobility) {
   if (mobility === "walk") return 1.1;
   if (mobility === "car") return 0.85;
@@ -101,34 +60,19 @@ function mobilityDistanceMultiplier(mobility: Mobility) {
   return 1;
 }
 
-function budgetFit(
-  priceLevel: number | undefined,
-  budget: Budget
-) {
+function budgetFit(priceLevel: number | undefined, budget: Budget) {
   if (priceLevel == null) return 0.65;
 
   if (budget === "low")
-    return priceLevel <= 1
-      ? 1
-      : priceLevel === 2
-      ? 0.6
-      : 0.25;
+    return priceLevel <= 1 ? 1 : priceLevel === 2 ? 0.6 : 0.25;
 
   if (budget === "mid")
-    return priceLevel <= 2
-      ? 1
-      : priceLevel === 3
-      ? 0.6
-      : 0.35;
+    return priceLevel <= 2 ? 1 : priceLevel === 3 ? 0.6 : 0.35;
 
-  return priceLevel >= 3
-    ? 1
-    : priceLevel === 2
-    ? 0.75
-    : 0.45;
+  return priceLevel >= 3 ? 1 : priceLevel === 2 ? 0.75 : 0.45;
 }
 
-function buildReasonText(args: {
+function buildReasonTokens(args: {
   openNow?: boolean;
   km: number;
   indoor: boolean;
@@ -136,32 +80,25 @@ function buildReasonText(args: {
   rating?: number;
   vibe: Vibe;
 }) {
-  const parts: string[] = [];
+  const tokens: string[] = [];
 
-  if (args.openNow) parts.push("Öppet nu");
+  if (args.openNow) tokens.push("openNow");
 
   if (args.weatherScore > 0.85)
-    parts.push(
-      args.indoor
-        ? "Bra i detta väder"
-        : "Perfekt väder"
-    );
+    tokens.push(args.indoor ? "goodInWeather" : "perfectWeather");
 
-  if (args.km < 1.5) parts.push("Nära");
+  if (args.km < 1.5) tokens.push("nearby");
 
-  if ((args.rating ?? 0) >= 4.5)
-    parts.push("Högt betyg");
+  if ((args.rating ?? 0) >= 4.5) tokens.push("highRated");
 
-  parts.push(`Matchar: ${args.vibe}`);
+  tokens.push(`vibe:${args.vibe}`);
 
-  return parts.slice(0, 3).join(" · ");
+  return tokens;
 }
-function timeOfDayFit(
-  now: Date,
-  types: string[] | undefined
-) {
+
+function timeOfDayFit(now: Date, types?: string[]) {
   const hour = now.getHours();
-  const t = new Set((types ?? []).map(x => x.toLowerCase()));
+  const t = normTypes(types);
 
   const isMorning = hour >= 6 && hour < 11;
   const isLunch = hour >= 11 && hour < 15;
@@ -169,30 +106,26 @@ function timeOfDayFit(
   const isEvening = hour >= 18 && hour < 23;
   const isLateNight = hour >= 23 || hour < 3;
 
-  let score = 0.7; // neutral baseline
+  let score = 0.7;
 
-  // MORNING
   if (isMorning) {
     if (t.has("cafe") || t.has("bakery") || t.has("park")) score += 0.25;
     if (t.has("night_club") || t.has("bar")) score -= 0.3;
   }
 
-  // LUNCH
   if (isLunch) {
     if (t.has("restaurant") || t.has("meal_takeaway")) score += 0.25;
   }
 
-  // AFTERNOON
   if (isAfternoon) {
-    if (t.has("museum") || t.has("tourist_attraction") || t.has("park")) score += 0.2;
+    if (t.has("museum") || t.has("tourist_attraction") || t.has("park"))
+      score += 0.2;
   }
 
-  // EVENING
   if (isEvening) {
     if (t.has("restaurant") || t.has("bar")) score += 0.25;
   }
 
-  // LATE NIGHT
   if (isLateNight) {
     if (t.has("bar") || t.has("night_club")) score += 0.3;
     if (t.has("museum") || t.has("park")) score -= 0.3;
@@ -209,29 +142,15 @@ function preferenceBoost(
   const t = normTypes(types);
   let boost = 0;
 
-  if (vibe === "food" && (t.has("restaurant") || t.has("cafe")))
-    boost += 0.2;
+  if (vibe === "food" && (t.has("restaurant") || t.has("cafe"))) boost += 0.2;
+  if (vibe === "culture" && (t.has("museum") || t.has("art_gallery"))) boost += 0.2;
+  if (vibe === "views" && (t.has("tourist_attraction") || t.has("park"))) boost += 0.15;
+  if (vibe === "nightlife" && (t.has("bar") || t.has("night_club"))) boost += 0.15;
+  if (vibe === "relax" && (t.has("park") || t.has("spa"))) boost += 0.15;
 
-  if (vibe === "culture" && (t.has("museum") || t.has("art_gallery")))
-    boost += 0.2;
-
-  if (vibe === "views" && (t.has("tourist_attraction") || t.has("park")))
-    boost += 0.15;
-
-  if (vibe === "nightlife" && (t.has("bar") || t.has("night_club")))
-    boost += 0.15;
-
-  if (vibe === "relax" && (t.has("park") || t.has("spa")))
-    boost += 0.15;
-
-  if (audience === "family" && (t.has("park") || t.has("aquarium")))
-    boost += 0.1;
-
-  if (audience === "couples" && t.has("restaurant"))
-    boost += 0.08;
-
-  if (audience === "friends" && t.has("bar"))
-    boost += 0.08;
+  if (audience === "family" && (t.has("park") || t.has("aquarium"))) boost += 0.1;
+  if (audience === "couples" && t.has("restaurant")) boost += 0.08;
+  if (audience === "friends" && t.has("bar")) boost += 0.08;
 
   return clamp01(boost);
 }
@@ -239,27 +158,18 @@ function preferenceBoost(
 export function scorePlace(params: {
   placeId?: string;
   featuredIds?: string[];
-
   now: Date;
   userLat: number;
   userLng: number;
   weather: Weather;
-
   placeLat: number;
   placeLng: number;
-
   rating?: number;
   userRatingsTotal?: number;
   openNow?: boolean;
   types?: string[];
   priceLevel?: number;
-
-  section:
-    | "hotNow"
-    | "laterToday"
-    | "evening"
-    | "rainy";
-
+  section: "hotNow" | "laterToday" | "evening" | "rainy";
   prefs: {
     city?: string;
     audience: Audience;
@@ -267,7 +177,6 @@ export function scorePlace(params: {
     mobility: Mobility;
     budget: Budget;
   };
-
   liveWeather?: {
     temperature: number;
     precipitation: number;
@@ -275,7 +184,6 @@ export function scorePlace(params: {
     windSpeed: number;
     cloudCover: number;
   };
-  
 }) {
   const km = haversineKm(
     params.userLat,
@@ -284,38 +192,25 @@ export function scorePlace(params: {
     params.placeLng
   );
 
-  const timeScore = timeOfDayFit(
-    params.now,
-    params.types
-  );
+  const timeScore = timeOfDayFit(params.now, params.types);
 
-
-  // 🔥 Hard cap distance
-  const hardCap =
-    params.prefs.mobility === "walk" ? 7.5 : 25;
-
+  const hardCap = params.prefs.mobility === "walk" ? 7.5 : 25;
   const hardPenalty = km > hardCap ? 0 : 1;
 
   const indoor = guessIndoor(params.types);
-  const wfit = advancedWeatherScore(
-    indoor,
-    params.liveWeather
-  );
+
+  const wfit = advancedWeatherScore(indoor, params.liveWeather);
 
   const distScore =
     clamp01(1 - km / 10) *
-    mobilityDistanceMultiplier(
-      params.prefs.mobility
-    ) *
+    mobilityDistanceMultiplier(params.prefs.mobility) *
     hardPenalty;
 
   const ratingScore =
-    params.rating && params.userRatingsTotal
+    params.rating != null && params.userRatingsTotal != null
       ? clamp01(
           (params.rating / 5) *
-            Math.log10(
-              params.userRatingsTotal + 1
-            )
+            Math.log10(params.userRatingsTotal + 1)
         )
       : 0.4;
 
@@ -333,13 +228,13 @@ export function scorePlace(params: {
   );
 
   const weights =
-  params.section === "rainy"
-    ? { dist: 1.2, open: 2, weather: 4, rating: 1.2, pref: 1.5, budget: 1, time: 1.2 }
-    : params.section === "evening"
-    ? { dist: 1.5, open: 2.5, weather: 1.2, rating: 1.3, pref: 1.6, budget: 1, time: 2 }
-    : { dist: 2, open: 3, weather: 2, rating: 1.5, pref: 1.8, budget: 1, time: 1.5 };
+    params.section === "rainy"
+      ? { dist: 1.2, open: 2, weather: 4, rating: 1.2, pref: 1.5, budget: 1, time: 1.2 }
+      : params.section === "evening"
+      ? { dist: 1.5, open: 2.5, weather: 1.2, rating: 1.3, pref: 1.6, budget: 1, time: 2 }
+      : { dist: 2, open: 3, weather: 2, rating: 1.5, pref: 1.8, budget: 1, time: 1.5 };
 
-    const raw =
+  const raw =
     weights.dist * distScore +
     weights.open * openScore +
     weights.weather * wfit +
@@ -348,51 +243,33 @@ export function scorePlace(params: {
     weights.budget * budgetScore +
     weights.time * timeScore;
 
-  const max = Object.values(weights).reduce(
-    (s, v) => s + v,
-    0
-  );
+  const max = Object.values(weights).reduce((s, v) => s + v, 0);
 
-  const baseScore = Math.round(
-    (raw / max) * 100
-  );
+  const baseScore = Math.round((raw / max) * 100);
 
-  // 🔥 Featured boost
   const isFeatured =
     params.placeId &&
-    params.featuredIds?.includes(
-      params.placeId
-    );
+    params.featuredIds?.includes(params.placeId);
 
   const featuredBoost = isFeatured ? 20 : 0;
 
-  const finalScore = Math.min(
-    100,
-    baseScore + featuredBoost
-  );
+  const finalScore = Math.min(100, baseScore + featuredBoost);
+
+  const reasonTokens = buildReasonTokens({
+    openNow: params.openNow,
+    km,
+    indoor,
+    weatherScore: wfit,
+    rating: params.rating,
+    vibe: params.prefs.vibe
+  });
 
   return {
     score: finalScore,
     km,
     indoor,
     wfit,
-    reason: isFeatured
-      ? "Utvalt · " +
-        buildReasonText({
-          openNow: params.openNow,
-          km,
-          indoor,
-          weatherScore: wfit,
-          rating: params.rating,
-          vibe: params.prefs.vibe
-        })
-      : buildReasonText({
-          openNow: params.openNow,
-          km,
-          indoor,
-          weatherScore: wfit,
-          rating: params.rating,
-          vibe: params.prefs.vibe
-        })
+    reasonTokens,
+    featured: Boolean(isFeatured)
   };
 }
