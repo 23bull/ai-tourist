@@ -214,15 +214,15 @@ export async function GET(req: Request) {
 
       return {
         place_id: p.place_id,
-        name: p.name,
-        rating: p.rating,
-        user_ratings_total: p.user_ratings_total,
-        vicinity: p.vicinity,
-        maps_url: p.maps_url,
-        distance_km: Number(s.km.toFixed(1)),
-        score: s.score,
-        reasonTokens: s.reasonTokens,
-        featured: s.featured
+  name: p.name,
+  rating: p.rating,
+  user_ratings_total: p.user_ratings_total,
+  vicinity: p.vicinity,
+  maps_url: p.maps_url,
+  distance_km: Number(s.km.toFixed(1)),
+  score: s.score,
+  liveVibeIndex: s.liveVibeIndex,
+  liveVibeState: s.liveVibeState
       };
     });
 
@@ -263,15 +263,15 @@ export async function GET(req: Request) {
 
       return {
         place_id: p.place_id,
-        name: p.name,
-        rating: p.rating,
-        user_ratings_total: p.user_ratings_total,
-        vicinity: p.vicinity,
-        maps_url: p.maps_url,
-        distance_km: Number(s.km.toFixed(1)),
-        score: s.score,
-        reasonTokens: ["featured", ...(s.reasonTokens ?? [])],
-        featured: true
+  name: p.name,
+  rating: p.rating,
+  user_ratings_total: p.user_ratings_total,
+  vicinity: p.vicinity,
+  maps_url: p.maps_url,
+  distance_km: Number(s.km.toFixed(1)),
+  score: s.score,
+  liveVibeIndex: s.liveVibeIndex,
+  liveVibeState: s.liveVibeState
       };
     });
 

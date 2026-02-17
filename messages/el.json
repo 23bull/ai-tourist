@@ -2,7 +2,7 @@
   "ui": {
     "language": "Γλώσσα",
     "seeWhatFitsMeNow": "Δες τι σου ταιριάζει τώρα",
-    "hotNow": "Δημοφιλή τώρα",
+    "hotNow": "Δημοφιλές τώρα",
     "hotHint": "Πιο δημοφιλή αυτή τη στιγμή · Μην το χάσεις",
     "trendingNow": "Τάση τώρα",
     "viewInMaps": "Προβολή στους Χάρτες",
@@ -11,17 +11,32 @@
     "navigate": "Πλοήγηση",
     "moreHotPicks": "Περισσότερες επιλογές",
     "popular": "Δημοφιλές",
-    "perfectNow": "Ιδανικό τώρα",
+
     "perfectWeather": "Ιδανικό για αυτόν τον καιρό",
     "goodInWeather": "Καλή επιλογή για αυτόν τον καιρό",
     "openNow": "Ανοιχτό τώρα",
     "nearby": "Κοντά",
     "highRated": "Υψηλή βαθμολογία",
-    "matches": "Ταιριάζει με",
+    "matches": "Ταιριάζει",
+    "perfectNow": "Ιδανικό τώρα",
     "score": "Βαθμολογία",
-    "goodLaterToday": "Καλό αργότερα σήμερα",
+
+    "distanceKm": "{value, plural, =0 {Εδώ} one {# χλμ μακριά} other {# χλμ μακριά}}",
+    "distanceHere": "Εδώ",
+    "distanceMeters": "{value} μ μακριά",
+
+    "vibeStates": {
+      "electric": "Εκρηκτικό",
+      "buzzing": "Ζωντανό",
+      "lively": "Έντονο",
+      "calm": "Ήρεμο",
+      "quiet": "Ήσυχο"
+    },
+
+    "goodLaterToday": "Καλή επιλογή αργότερα σήμερα",
     "tonightNearby": "Απόψε κοντά σου",
     "rainFriendly": "Κατάλληλο για βροχή",
+
     "preferences": {
       "title": "Οι προτιμήσεις σου",
       "city": "Πόλη",
@@ -30,6 +45,7 @@
       "mobility": "Μετακίνηση",
       "budget": "Budget",
       "hint": "Συμβουλή: Μοιράσου το link για να κρατήσεις τις ίδιες ρυθμίσεις.",
+
       "audienceOptions": {
         "general": "Γενικά",
         "solo": "Μόνος/η",
@@ -37,6 +53,7 @@
         "friends": "Φίλοι",
         "family": "Οικογένεια"
       },
+
       "vibeOptions": {
         "food": "Φαγητό",
         "culture": "Πολιτισμός",
@@ -44,23 +61,18 @@
         "nightlife": "Νυχτερινή ζωή",
         "relax": "Χαλάρωση"
       },
+
       "mobilityOptions": {
         "walk": "Με τα πόδια",
         "car": "Αυτοκίνητο",
         "boat": "Σκάφος"
       },
+
       "budgetOptions": {
         "low": "Χαμηλό",
         "mid": "Μεσαίο",
         "high": "Υψηλό"
       }
     }
-  },
-  "vibe": {
-    "food": "Φαγητό",
-    "culture": "Πολιτισμός",
-    "views": "Θέα",
-    "nightlife": "Νυχτερινή ζωή",
-    "relax": "Χαλάρωση"
   }
 }

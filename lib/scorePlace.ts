@@ -43,8 +43,6 @@ function guessIndoor(types?: string[]) {
     "museum",
     "art_gallery",
     "church",
-    "synagogue",
-    "mosque",
     "shopping_mall",
     "aquarium",
     "library",
@@ -60,99 +58,33 @@ function mobilityDistanceMultiplier(mobility: Mobility) {
   return 1;
 }
 
-function budgetFit(priceLevel: number | undefined, budget: Budget) {
-  if (priceLevel == null) return 0.65;
-
-  if (budget === "low")
-    return priceLevel <= 1 ? 1 : priceLevel === 2 ? 0.6 : 0.25;
-
-  if (budget === "mid")
-    return priceLevel <= 2 ? 1 : priceLevel === 3 ? 0.6 : 0.35;
-
-  return priceLevel >= 3 ? 1 : priceLevel === 2 ? 0.75 : 0.45;
-}
-
-function buildReasonTokens(args: {
-  openNow?: boolean;
-  km: number;
-  indoor: boolean;
-  weatherScore: number;
-  rating?: number;
-  vibe: Vibe;
-}) {
-  const tokens: string[] = [];
-
-  if (args.openNow) tokens.push("openNow");
-
-  if (args.weatherScore > 0.85)
-    tokens.push(args.indoor ? "goodInWeather" : "perfectWeather");
-
-  if (args.km < 1.5) tokens.push("nearby");
-
-  if ((args.rating ?? 0) >= 4.5) tokens.push("highRated");
-
-  tokens.push(`vibe:${args.vibe}`);
-
-  return tokens;
-}
-
 function timeOfDayFit(now: Date, types?: string[]) {
   const hour = now.getHours();
   const t = normTypes(types);
 
-  const isMorning = hour >= 6 && hour < 11;
-  const isLunch = hour >= 11 && hour < 15;
-  const isAfternoon = hour >= 15 && hour < 18;
-  const isEvening = hour >= 18 && hour < 23;
-  const isLateNight = hour >= 23 || hour < 3;
-
   let score = 0.7;
 
-  if (isMorning) {
-    if (t.has("cafe") || t.has("bakery") || t.has("park")) score += 0.25;
-    if (t.has("night_club") || t.has("bar")) score -= 0.3;
+  if (hour >= 6 && hour < 11) {
+    if (t.has("cafe") || t.has("bakery")) score += 0.25;
   }
 
-  if (isLunch) {
-    if (t.has("restaurant") || t.has("meal_takeaway")) score += 0.25;
-  }
-
-  if (isAfternoon) {
-    if (t.has("museum") || t.has("tourist_attraction") || t.has("park"))
-      score += 0.2;
-  }
-
-  if (isEvening) {
+  if (hour >= 18 && hour < 23) {
     if (t.has("restaurant") || t.has("bar")) score += 0.25;
   }
 
-  if (isLateNight) {
+  if (hour >= 23 || hour < 3) {
     if (t.has("bar") || t.has("night_club")) score += 0.3;
-    if (t.has("museum") || t.has("park")) score -= 0.3;
   }
 
   return clamp01(score);
 }
 
-function preferenceBoost(
-  types: string[] | undefined,
-  vibe: Vibe,
-  audience: Audience
-) {
-  const t = normTypes(types);
-  let boost = 0;
-
-  if (vibe === "food" && (t.has("restaurant") || t.has("cafe"))) boost += 0.2;
-  if (vibe === "culture" && (t.has("museum") || t.has("art_gallery"))) boost += 0.2;
-  if (vibe === "views" && (t.has("tourist_attraction") || t.has("park"))) boost += 0.15;
-  if (vibe === "nightlife" && (t.has("bar") || t.has("night_club"))) boost += 0.15;
-  if (vibe === "relax" && (t.has("park") || t.has("spa"))) boost += 0.15;
-
-  if (audience === "family" && (t.has("park") || t.has("aquarium"))) boost += 0.1;
-  if (audience === "couples" && t.has("restaurant")) boost += 0.08;
-  if (audience === "friends" && t.has("bar")) boost += 0.08;
-
-  return clamp01(boost);
+function classifyVibe(score: number) {
+  if (score >= 85) return "electric";
+  if (score >= 70) return "buzzing";
+  if (score >= 55) return "lively";
+  if (score >= 40) return "calm";
+  return "quiet";
 }
 
 export function scorePlace(params: {
@@ -192,22 +124,21 @@ export function scorePlace(params: {
     params.placeLng
   );
 
-  const timeScore = timeOfDayFit(params.now, params.types);
-
-  const hardCap = params.prefs.mobility === "walk" ? 7.5 : 25;
-  const hardPenalty = km > hardCap ? 0 : 1;
-
   const indoor = guessIndoor(params.types);
 
-  const wfit = advancedWeatherScore(indoor, params.liveWeather);
+  const timeScore = timeOfDayFit(params.now, params.types);
+
+  const weatherScore = advancedWeatherScore(
+    indoor,
+    params.liveWeather
+  );
 
   const distScore =
     clamp01(1 - km / 10) *
-    mobilityDistanceMultiplier(params.prefs.mobility) *
-    hardPenalty;
+    mobilityDistanceMultiplier(params.prefs.mobility);
 
   const ratingScore =
-    params.rating != null && params.userRatingsTotal != null
+    params.rating && params.userRatingsTotal
       ? clamp01(
           (params.rating / 5) *
             Math.log10(params.userRatingsTotal + 1)
@@ -216,60 +147,44 @@ export function scorePlace(params: {
 
   const openScore = params.openNow ? 1 : 0.3;
 
-  const prefBoost = preferenceBoost(
-    params.types,
-    params.prefs.vibe,
-    params.prefs.audience
-  );
-
-  const budgetScore = budgetFit(
-    params.priceLevel,
-    params.prefs.budget
-  );
-
-  const weights =
-    params.section === "rainy"
-      ? { dist: 1.2, open: 2, weather: 4, rating: 1.2, pref: 1.5, budget: 1, time: 1.2 }
-      : params.section === "evening"
-      ? { dist: 1.5, open: 2.5, weather: 1.2, rating: 1.3, pref: 1.6, budget: 1, time: 2 }
-      : { dist: 2, open: 3, weather: 2, rating: 1.5, pref: 1.8, budget: 1, time: 1.5 };
+  // -------- MAIN SCORE --------
 
   const raw =
-    weights.dist * distScore +
-    weights.open * openScore +
-    weights.weather * wfit +
-    weights.rating * ratingScore +
-    weights.pref * prefBoost +
-    weights.budget * budgetScore +
-    weights.time * timeScore;
+    2 * distScore +
+    2 * openScore +
+    2 * weatherScore +
+    1.5 * ratingScore +
+    1.5 * timeScore;
 
-  const max = Object.values(weights).reduce((s, v) => s + v, 0);
+  const max = 2 + 2 + 2 + 1.5 + 1.5;
 
-  const baseScore = Math.round((raw / max) * 100);
+  const score = Math.round((raw / max) * 100);
 
-  const isFeatured =
-    params.placeId &&
-    params.featuredIds?.includes(params.placeId);
+  // -------- LIVE VIBE --------
 
-  const featuredBoost = isFeatured ? 20 : 0;
+  const popularityScore = clamp01(
+    Math.log10((params.userRatingsTotal ?? 0) + 1) / 3
+  );
 
-  const finalScore = Math.min(100, baseScore + featuredBoost);
+  const liveRaw =
+    2.5 * timeScore +
+    2.5 * weatherScore +
+    2 * openScore +
+    2 * popularityScore +
+    1.5 * distScore;
 
-  const reasonTokens = buildReasonTokens({
-    openNow: params.openNow,
-    km,
-    indoor,
-    weatherScore: wfit,
-    rating: params.rating,
-    vibe: params.prefs.vibe
-  });
+  const liveMax = 2.5 + 2.5 + 2 + 2 + 1.5;
+
+  const liveVibeIndex = Math.round(
+    (liveRaw / liveMax) * 100
+  );
+
+  const liveVibeState = classifyVibe(liveVibeIndex);
 
   return {
-    score: finalScore,
+    score,
     km,
-    indoor,
-    wfit,
-    reasonTokens,
-    featured: Boolean(isFeatured)
+    liveVibeIndex,
+    liveVibeState
   };
 }

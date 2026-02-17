@@ -146,16 +146,25 @@ a:hover{ color: rgba(var(--accent), 1); }
   background: var(--card2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px;
+  padding: 14px;
   color: var(--ink);
-  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   box-shadow: var(--shadowSoft);
+  position: relative; /* 👈 viktigt */
+
+}
+.distanceText{
+  opacity: 0.55;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .card:hover{
-  transform: translateY(-1px);
-  border-color: rgba(255,255,255,0.26);
-  box-shadow: var(--shadowLift);
+  transform: translateY(-3px);
+  border-color: rgba(var(--accent),0.35);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.45),
+    0 0 30px rgba(var(--accent),0.15);
 }
 
 .card:active{
@@ -192,6 +201,9 @@ a:hover{ color: rgba(var(--accent), 1); }
   display: inline-flex;
   align-items: center;
   gap: 10px;
+}
+section:first-of-type .card{
+  border-color: rgba(var(--accent),0.22);
 }
 
 .bolt{
@@ -479,14 +491,15 @@ a:hover{ color: rgba(var(--accent), 1); }
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 60px 24px;
   color: white;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.55),
-    rgba(0,0,0,0.35)
-  );
-  backdrop-filter: blur(2px);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.65),
+      rgba(0,0,0,0.35)
+    );
+  backdrop-filter: blur(4px);
 }
 
 .heroTitle {
@@ -505,10 +518,178 @@ a:hover{ color: rgba(var(--accent), 1); }
   margin: 0 auto;
   padding: 24px;
 }
+.pageContent{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  animation: pageFade 0.4s ease-out;
+}
+
+@keyframes pageFade{
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0px); }
+}
 .hero {
   background-image: url("/images/sea.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 500px;
+  min-height: 560px;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* ===============================
+   LIVE VIBE SYSTEM
+================================= */
+
+.vibeBadge{
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.vibe-electric{
+  color: #FF4D6D;
+  text-shadow: 0 0 14px rgba(255,77,109,0.6);
+  animation: vibePulse 1.8s ease-in-out infinite;
+}
+
+.vibe-buzzing{
+  color: #FF9F1C;
+  text-shadow: 0 0 12px rgba(255,159,28,0.5);
+}
+
+.vibe-lively{
+  color: #60E0FF;
+}
+
+.vibe-calm{
+  color: #A884FF;
+  opacity: 0.85;
+}
+
+.vibe-quiet{
+  color: #9AA4C8;
+  opacity: 0.7;
+}
+
+@keyframes vibePulse{
+  0% { text-shadow: 0 0 8px rgba(255,77,109,0.4); }
+  50% { text-shadow: 0 0 20px rgba(255,77,109,0.8); }
+  100% { text-shadow: 0 0 8px rgba(255,77,109,0.4); }
+}
+
+/* Vibe progress bar */
+.vibeBar{
+  height: 4px;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.vibeFill{
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    rgba(var(--violet),0.8),
+    rgba(var(--accent),0.9)
+  );
+  transition: width 0.3s ease;
+}
+/* ===== Live Vibe ===== */
+
+.vibeBadge{
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.vibe-electric{
+  background: rgba(255,80,80,0.15);
+  color: #ff8080;
+}
+
+.vibe-buzzing{
+  background: rgba(255,170,0,0.15);
+  color: #ffb347;
+}
+
+.vibe-lively{
+  background: rgba(96,224,255,0.15);
+  color: #60e0ff;
+}
+
+.vibe-calm{
+  background: rgba(120,200,255,0.12);
+  color: #9ad7ff;
+}
+
+.vibe-quiet{
+  background: rgba(180,200,255,0.12);
+  color: #b4c8ff;
+}
+
+.vibeBar{
+  height: 4px;
+  margin-top: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.vibeFill{
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(96,224,255,0.9),
+    rgba(168,132,255,0.9)
+  );
+}
+@keyframes vibePulse {
+  0%   { opacity: 0.85; transform: scaleX(1); }
+  50%  { opacity: 1; transform: scaleX(1.01); }
+  100% { opacity: 0.85; transform: scaleX(1); }
+}
+.vibeRing {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(4px);
+}
+
+.vibeRing::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg1);
+}
+
+@keyframes ringPulse {
+  0%   { transform: scale(1); opacity: 0.9; }
+  50%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
 }

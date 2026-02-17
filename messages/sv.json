@@ -11,7 +11,7 @@
     "navigate": "Navigera",
     "moreHotPicks": "Fler heta tips",
     "popular": "Populärt",
-    "perfectNow": "Perfekt just nu",
+
     "perfectWeather": "Perfekt i det här vädret",
     "goodInWeather": "Bra val i det här vädret",
     "openNow": "Öppet nu",
@@ -20,9 +20,23 @@
     "matches": "Matchar",
     "perfectNow": "Perfekt just nu",
     "score": "Poäng",
+
+    "distanceKm": "{value, plural, =0 {Här} one {# km bort} other {# km bort}}",
+    "distanceHere": "Här",
+    "distanceMeters": "{value} m bort",
+
+    "vibeStates": {
+      "electric": "Explosiv",
+      "buzzing": "Pulserande",
+      "lively": "Livlig",
+      "calm": "Lugn",
+      "quiet": "Tyst"
+    },
+
     "goodLaterToday": "Bra senare idag",
     "tonightNearby": "Ikväll i närheten",
     "rainFriendly": "Regnvänligt",
+
     "preferences": {
       "title": "Dina preferenser",
       "city": "Stad",
@@ -31,6 +45,7 @@
       "mobility": "Hur tar du dig fram?",
       "budget": "Budget",
       "hint": "Tips: Dela länken för att behålla samma preferenser på en annan enhet.",
+
       "audienceOptions": {
         "general": "Allmänt",
         "solo": "Solo",
@@ -38,30 +53,26 @@
         "friends": "Vänner",
         "family": "Familj"
       },
+
       "vibeOptions": {
         "food": "Mat",
         "culture": "Kultur",
         "views": "Utsikt",
         "nightlife": "Nattliv",
-        "relax": "Lugnt"
+        "relax": "Avkoppling"
       },
+
       "mobilityOptions": {
         "walk": "Till fots",
         "car": "Bil",
         "boat": "Båt"
       },
+
       "budgetOptions": {
         "low": "Låg",
         "mid": "Mellan",
         "high": "Hög"
       }
     }
-  },
-  "vibe": {
-    "food": "Mat",
-    "culture": "Kultur",
-    "views": "Utsikt",
-    "nightlife": "Nattliv",
-    "relax": "Avkoppling"
   }
 }

@@ -1,27 +1,42 @@
 {
   "ui": {
     "language": "Sprog",
-    "seeWhatFitsMeNow": "Se hvad der passer mig nu",
+    "seeWhatFitsMeNow": "Se hvad der passer dig nu",
     "hotNow": "Populært lige nu",
     "hotHint": "Mest populært lige nu · Gå ikke glip af det",
     "trendingNow": "Trender nu",
     "viewInMaps": "Vis i Maps",
     "openInMaps": "Åbn i Maps",
     "openGoogleMaps": "Åbn i Google Maps",
-    "navigate": "Navigér",
-    "moreHotPicks": "Flere varme anbefalinger",
+    "navigate": "Naviger",
+    "moreHotPicks": "Flere hotte tips",
     "popular": "Populært",
-    "perfectNow": "Perfekt lige nu",
+
     "perfectWeather": "Perfekt i dette vejr",
     "goodInWeather": "Godt valg i dette vejr",
     "openNow": "Åben nu",
     "nearby": "I nærheden",
     "highRated": "Højt vurderet",
     "matches": "Matcher",
+    "perfectNow": "Perfekt lige nu",
     "score": "Score",
-    "goodLaterToday": "Godt senere i dag",
+
+    "distanceKm": "{value, plural, =0 {Her} one {# km væk} other {# km væk}}",
+    "distanceHere": "Her",
+    "distanceMeters": "{value} m væk",
+
+    "vibeStates": {
+      "electric": "Elektrisk",
+      "buzzing": "Pulserende",
+      "lively": "Livlig",
+      "calm": "Rolig",
+      "quiet": "Stille"
+    },
+
+    "goodLaterToday": "God senere i dag",
     "tonightNearby": "I aften i nærheden",
     "rainFriendly": "Regnvenlig",
+
     "preferences": {
       "title": "Dine præferencer",
       "city": "By",
@@ -29,7 +44,8 @@
       "vibe": "Stemning",
       "mobility": "Transport",
       "budget": "Budget",
-      "hint": "Tip: Del linket for at beholde præferencerne på en anden enhed.",
+      "hint": "Tip: Del linket for at bevare samme indstillinger.",
+
       "audienceOptions": {
         "general": "Generelt",
         "solo": "Alene",
@@ -37,6 +53,7 @@
         "friends": "Venner",
         "family": "Familie"
       },
+
       "vibeOptions": {
         "food": "Mad",
         "culture": "Kultur",
@@ -44,23 +61,18 @@
         "nightlife": "Natteliv",
         "relax": "Afslapning"
       },
+
       "mobilityOptions": {
-        "walk": "Gå",
+        "walk": "Til fods",
         "car": "Bil",
         "boat": "Båd"
       },
+
       "budgetOptions": {
         "low": "Lav",
         "mid": "Mellem",
         "high": "Høj"
       }
     }
-  },
-  "vibe": {
-    "food": "Mad",
-    "culture": "Kultur",
-    "views": "Udsigt",
-    "nightlife": "Natteliv",
-    "relax": "Afslapning"
   }
 }

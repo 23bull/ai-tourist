@@ -1,8 +1,8 @@
 {
   "ui": {
     "language": "Språk",
-    "seeWhatFitsMeNow": "Se hva som passer meg nå",
-    "hotNow": "Populært akkurat nå",
+    "seeWhatFitsMeNow": "Se hva som passer deg nå",
+    "hotNow": "Populært nå",
     "hotHint": "Mest populært akkurat nå · Ikke gå glipp av det",
     "trendingNow": "Trender nå",
     "viewInMaps": "Vis i Maps",
@@ -11,17 +11,32 @@
     "navigate": "Naviger",
     "moreHotPicks": "Flere hete tips",
     "popular": "Populært",
-    "perfectNow": "Perfekt akkurat nå",
+
     "perfectWeather": "Perfekt i dette været",
     "goodInWeather": "Bra valg i dette været",
     "openNow": "Åpent nå",
     "nearby": "I nærheten",
     "highRated": "Høyt vurdert",
     "matches": "Matcher",
+    "perfectNow": "Perfekt nå",
     "score": "Poeng",
+
+    "distanceKm": "{value, plural, =0 {Her} one {# km unna} other {# km unna}}",
+    "distanceHere": "Her",
+    "distanceMeters": "{value} m unna",
+
+    "vibeStates": {
+      "electric": "Elektrisk",
+      "buzzing": "Pulserende",
+      "lively": "Livlig",
+      "calm": "Rolig",
+      "quiet": "Stille"
+    },
+
     "goodLaterToday": "Bra senere i dag",
     "tonightNearby": "I kveld i nærheten",
     "rainFriendly": "Regnvennlig",
+
     "preferences": {
       "title": "Dine preferanser",
       "city": "By",
@@ -29,7 +44,8 @@
       "vibe": "Stemning",
       "mobility": "Transport",
       "budget": "Budsjett",
-      "hint": "Tips: Del lenken for å beholde preferansene på en annen enhet.",
+      "hint": "Tips: Del lenken for å beholde samme innstillinger.",
+
       "audienceOptions": {
         "general": "Generelt",
         "solo": "Alene",
@@ -37,6 +53,7 @@
         "friends": "Venner",
         "family": "Familie"
       },
+
       "vibeOptions": {
         "food": "Mat",
         "culture": "Kultur",
@@ -44,23 +61,18 @@
         "nightlife": "Uteliv",
         "relax": "Avslapning"
       },
+
       "mobilityOptions": {
-        "walk": "Gå",
+        "walk": "Til fots",
         "car": "Bil",
         "boat": "Båt"
       },
+
       "budgetOptions": {
         "low": "Lav",
         "mid": "Middels",
         "high": "Høy"
       }
     }
-  },
-  "vibe": {
-    "food": "Mat",
-    "culture": "Kultur",
-    "views": "Utsikt",
-    "nightlife": "Uteliv",
-    "relax": "Avslapning"
   }
 }

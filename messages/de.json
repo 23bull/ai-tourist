@@ -1,28 +1,51 @@
 {
   "ui": {
     "language": "Sprache",
-    "seeWhatFitsMeNow": "Zeig mir, was jetzt passt",
-    "hotNow": "Gerade angesagt",
-    "hotHint": "Am beliebtesten gerade · Nicht verpassen",
-    "trendingNow": "Im Trend",
+    "seeWhatFitsMeNow": "Sieh, was jetzt zu dir passt",
+    "hotNow": "Gerade beliebt",
+    "hotHint": "Am beliebtesten im Moment · Nicht verpassen",
+    "trendingNow": "Trendend",
     "viewInMaps": "In Maps anzeigen",
     "openInMaps": "In Maps öffnen",
     "openGoogleMaps": "In Google Maps öffnen",
     "navigate": "Navigieren",
-    "moreHotPicks": "Mehr Top-Empfehlungen",
+    "moreHotPicks": "Weitere Top-Tipps",
     "popular": "Beliebt",
-    "perfectNow": "Gerade perfekt",
-    "score": "Punkte",
-    "goodLaterToday": "Gut für später heute",
+
+    "perfectWeather": "Perfekt bei diesem Wetter",
+    "goodInWeather": "Gute Wahl bei diesem Wetter",
+    "openNow": "Jetzt geöffnet",
+    "nearby": "In der Nähe",
+    "highRated": "Hoch bewertet",
+    "matches": "Passt zu",
+    "perfectNow": "Perfekt im Moment",
+    "score": "Score",
+
+    "distanceKm": "{value, plural, =0 {Hier} one {# km entfernt} other {# km entfernt}}",
+    "distanceHere": "Hier",
+    "distanceMeters": "{value} m entfernt",
+
+    "vibeStates": {
+      "electric": "Elektrisierend",
+      "buzzing": "Belebt",
+      "lively": "Lebhaft",
+      "calm": "Ruhig",
+      "quiet": "Still"
+    },
+
+    "goodLaterToday": "Später heute gut",
     "tonightNearby": "Heute Abend in der Nähe",
     "rainFriendly": "Regentauglich",
+
     "preferences": {
-      "title": "Deine Einstellungen",
+      "title": "Deine Präferenzen",
+      "city": "Stadt",
       "audience": "Gruppe",
       "vibe": "Stimmung",
-      "mobility": "Fortbewegung",
+      "mobility": "Mobilität",
       "budget": "Budget",
-      "hint": "Tipp: Teile die URL, um dieselben Einstellungen auf einem anderen Gerät zu behalten.",
+      "hint": "Tipp: Teile die URL, um dieselben Einstellungen zu behalten.",
+
       "audienceOptions": {
         "general": "Allgemein",
         "solo": "Allein",
@@ -30,21 +53,21 @@
         "friends": "Freunde",
         "family": "Familie"
       },
+
       "vibeOptions": {
         "food": "Essen",
         "culture": "Kultur",
         "views": "Aussicht",
         "nightlife": "Nachtleben",
-        "relax": "Entspannt"
+        "relax": "Entspannung"
       },
 
-      "city": "Stadt",
-      
       "mobilityOptions": {
         "walk": "Zu Fuß",
         "car": "Auto",
         "boat": "Boot"
       },
+
       "budgetOptions": {
         "low": "Niedrig",
         "mid": "Mittel",

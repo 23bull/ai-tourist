@@ -12,7 +12,18 @@
     "moreHotPicks": "More hot picks",
     "popular": "Popular",
     "perfectNow": "Perfect right now",
+    "vibeStates": {
+  "electric": "Electric",
+  "buzzing": "Buzzing",
+  "lively": "Lively",
+  "calm": "Calm",
+  "quiet": "Quiet"
+},
+
     "score": "Score",
+    "distanceKm": "{value, plural, =0 {Here} one {# km away} other {# km away}}",
+    "distanceHere": "Here",
+"distanceMeters": "{value} m away",
 
     "openNow": "Open now",
     "nearby": "Nearby",
