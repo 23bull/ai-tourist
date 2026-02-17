@@ -125,7 +125,7 @@ function Card({
       return t("ui.distanceMeters", { value: meters });
     }
 
-    return t("ui.distanceKm", { value: Number(km.toFixed(1)) });
+    return t("ui.distanceKm", { value: km.toFixed(1) });
   }
 
   return (
@@ -136,6 +136,7 @@ function Card({
       rel="noreferrer"
       title={t("ui.openGoogleMaps")}
     >
+      {/* TOP ROW */}
       <div
         style={{
           display: "flex",
@@ -145,28 +146,6 @@ function Card({
       >
         <div style={{ fontWeight: 650, lineHeight: 1.2 }}>
           {p.name}
-
-          {p.liveVibeIndex !== undefined && (
-  <div
-    className="vibeRing"
-    style={{
-      background: `conic-gradient(
-        rgba(var(--violet), 0.9) ${p.liveVibeIndex * 3.6}deg,
-        rgba(255,255,255,0.08) 0deg
-      )`,
-      boxShadow:
-        p.liveVibeIndex > 75
-          ? "0 0 14px rgba(168,132,255,0.6)"
-          : p.liveVibeIndex > 45
-          ? "0 0 8px rgba(168,132,255,0.35)"
-          : "0 0 4px rgba(168,132,255,0.2)",
-      animation:
-        p.liveVibeIndex > 70
-          ? "ringPulse 2s ease-in-out infinite"
-          : "none"
-    }}
-  />
-)}
         </div>
 
         <div
@@ -179,13 +158,13 @@ function Card({
           {p.distance_km !== undefined
             ? formatDistance(p.distance_km)
             : ""}
-
           {p.score !== undefined
             ? ` · ${t("ui.score")} ${p.score}`
             : ""}
         </div>
       </div>
 
+      {/* RATING ROW */}
       <div style={{ marginTop: 6, fontSize: 13, opacity: 0.8 }}>
         {p.rating
           ? `⭐ ${p.rating} (${p.user_ratings_total ?? 0}) · `
@@ -193,16 +172,16 @@ function Card({
         {p.vicinity ?? ""}
       </div>
 
+      {/* REASON */}
       {reasonText && (
-        <div
-          style={{
-            marginTop: 6,
-            fontSize: 12,
-            opacity: 0.75
-          }}
-        >
+        <div style={{ marginTop: 6, fontSize: 12, opacity: 0.75 }}>
           {reasonText}
         </div>
+      )}
+
+      {/* LIVE VIBE RING */}
+      {p.liveVibeIndex !== undefined && (
+        <div className="vibeRing" />
       )}
     </a>
   );

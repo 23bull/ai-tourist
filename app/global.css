@@ -497,7 +497,7 @@ section:first-of-type .card{
     linear-gradient(
       to bottom,
       rgba(0,0,0,0.65),
-      rgba(0,0,0,0.35)
+      rgba(0, 0, 0, 0.176)
     );
   backdrop-filter: blur(4px);
 }
@@ -539,157 +539,38 @@ section:first-of-type .card{
   align-items: flex-end;
 }
 
-/* ===============================
-   LIVE VIBE SYSTEM
-================================= */
-
-.vibeBadge{
-  margin-top: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
-.vibe-electric{
-  color: #FF4D6D;
-  text-shadow: 0 0 14px rgba(255,77,109,0.6);
-  animation: vibePulse 1.8s ease-in-out infinite;
-}
-
-.vibe-buzzing{
-  color: #FF9F1C;
-  text-shadow: 0 0 12px rgba(255,159,28,0.5);
-}
-
-.vibe-lively{
-  color: #60E0FF;
-}
-
-.vibe-calm{
-  color: #A884FF;
-  opacity: 0.85;
-}
-
-.vibe-quiet{
-  color: #9AA4C8;
-  opacity: 0.7;
-}
-
-@keyframes vibePulse{
-  0% { text-shadow: 0 0 8px rgba(255,77,109,0.4); }
-  50% { text-shadow: 0 0 20px rgba(255,77,109,0.8); }
-  100% { text-shadow: 0 0 8px rgba(255,77,109,0.4); }
-}
-
-/* Vibe progress bar */
-.vibeBar{
-  height: 4px;
-  width: 100%;
-  background: rgba(255,255,255,0.08);
-  border-radius: 999px;
-  margin-top: 6px;
-  overflow: hidden;
-}
-
-.vibeFill{
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg,
-    rgba(var(--violet),0.8),
-    rgba(var(--accent),0.9)
-  );
-  transition: width 0.3s ease;
-}
 /* ===== Live Vibe ===== */
 
-.vibeBadge{
-  margin-top: 6px;
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-}
-
-.vibe-electric{
-  background: rgba(255,80,80,0.15);
-  color: #ff8080;
-}
-
-.vibe-buzzing{
-  background: rgba(255,170,0,0.15);
-  color: #ffb347;
-}
-
-.vibe-lively{
-  background: rgba(96,224,255,0.15);
-  color: #60e0ff;
-}
-
-.vibe-calm{
-  background: rgba(120,200,255,0.12);
-  color: #9ad7ff;
-}
-
-.vibe-quiet{
-  background: rgba(180,200,255,0.12);
-  color: #b4c8ff;
-}
-
-.vibeBar{
-  height: 4px;
-  margin-top: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.vibeFill{
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(96,224,255,0.9),
-    rgba(168,132,255,0.9)
-  );
-}
-@keyframes vibePulse {
-  0%   { opacity: 0.85; transform: scaleX(1); }
-  50%  { opacity: 1; transform: scaleX(1.01); }
-  100% { opacity: 0.85; transform: scaleX(1); }
-}
 .vibeRing {
   position: absolute;
-  bottom: 10px;
   right: 10px;
+  bottom: 10px;
+  
 
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(4px);
-}
-
-.vibeRing::after {
-  content: "";
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--bg1);
+
+  border: 2px solid rgba(21, 105, 207, 0.561); /* tunnare + mer transparent */
+
+  box-shadow:
+    0 0 6px rgba(49, 81, 101, 0.863),
+    0 0 12px rgba(0, 5, 7, 0.15);
+
+  animation: vibePulse 2.4s ease-in-out infinite;
 }
 
-@keyframes ringPulse {
-  0%   { transform: scale(1); opacity: 0.9; }
-  50%  { transform: scale(1.08); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.9; }
+@keyframes vibePulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
 }
