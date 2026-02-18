@@ -75,7 +75,33 @@ export async function GET(req: Request) {
 
   const citySlug = urlObj.searchParams.get("city");
   const selectedCity =
-    getCityBySlug(citySlug) ?? getDefaultCity();
+  citySlug && citySlug !== "my-location"
+    ? getCityBySlug(citySlug) ?? getDefaultCity()
+    : getDefaultCity();
+
+  // 🔥 USER GEO FROM QUERY
+  const userLatParam = urlObj.searchParams.get("userLat");
+  const userLngParam = urlObj.searchParams.get("userLng");
+
+  const userLat =
+    userLatParam !== null ? Number(userLatParam) : undefined;
+
+  const userLng =
+    userLngParam !== null ? Number(userLngParam) : undefined;
+
+  // 🔥 ONLY USE GEO IF CITY MATCHES
+const sameCity =
+selectedCity.slug === urlObj.searchParams.get("city");
+
+const originLat =
+  userLat !== undefined && !Number.isNaN(userLat)
+    ? userLat
+    : selectedCity.lat;
+
+const originLng =
+  userLng !== undefined && !Number.isNaN(userLng)
+    ? userLng
+    : selectedCity.lng;
 
   const radiusFromUrl = Number(
     urlObj.searchParams.get("radius") ?? "0"
@@ -117,8 +143,6 @@ export async function GET(req: Request) {
   };
 
   const now = new Date();
-  const userLat = selectedCity.lat;
-  const userLng = selectedCity.lng;
 
   const typesToFetch = [
     "tourist_attraction",
@@ -130,12 +154,13 @@ export async function GET(req: Request) {
     "bar"
   ];
 
+  // 🔥 USE ORIGIN LAT/LNG HERE
   const fetched = await Promise.all(
     typesToFetch.map((type) =>
       fetchNearbyByType({
         key,
-        lat: userLat,
-        lng: userLng,
+        lat: originLat,
+        lng: originLng,
         radius,
         type
       })
@@ -152,16 +177,15 @@ export async function GET(req: Request) {
         byId.set(p.place_id, p);
       } else {
         const prev = byId.get(p.place_id);
-        const mergedTypes = Array.from(
-          new Set([
-            ...(prev.types ?? []),
-            ...(p.types ?? [])
-          ])
-        );
         byId.set(p.place_id, {
           ...prev,
           ...p,
-          types: mergedTypes
+          types: Array.from(
+            new Set([
+              ...(prev.types ?? []),
+              ...(p.types ?? [])
+            ])
+          )
         });
       }
     }
@@ -170,8 +194,8 @@ export async function GET(req: Request) {
   const places = Array.from(byId.values())
     .map((p) => ({
       ...p,
-      placeLat: Number(p.placeLat ?? userLat),
-      placeLng: Number(p.placeLng ?? userLng),
+      placeLat: Number(p.placeLat ?? originLat),
+      placeLng: Number(p.placeLng ?? originLng),
       maps_url:
         `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
           p.name
@@ -192,14 +216,15 @@ export async function GET(req: Request) {
     section: "hotNow" | "laterToday" | "evening" | "rainy",
     n: number
   ) {
-    const scored = places.map((p) => {
+    const scored = places.map((p) => {   // ✅ p definieras här
+  
       const s = scorePlace({
+        userLat: originLat,
+        userLng: originLng,
         placeId: p.place_id,
         featuredIds: selectedCity.featuredPlaceIds,
         liveWeather,
         now,
-        userLat,
-        userLng,
         weather,
         placeLat: p.placeLat,
         placeLng: p.placeLng,
@@ -211,94 +236,38 @@ export async function GET(req: Request) {
         section,
         prefs
       });
-
+  
       return {
         place_id: p.place_id,
-  name: p.name,
-  rating: p.rating,
-  user_ratings_total: p.user_ratings_total,
-  vicinity: p.vicinity,
-  maps_url: p.maps_url,
-  distance_km: Number(s.km.toFixed(1)),
-  score: s.score,
-  liveVibeIndex: s.liveVibeIndex,
-  liveVibeState: s.liveVibeState
+        name: p.name,
+        rating: p.rating,
+        user_ratings_total: p.user_ratings_total,
+        vicinity: p.vicinity,
+        maps_url: p.maps_url,
+        distance_km: Number(s.km.toFixed(1)),
+        score: s.score,
+        liveVibeIndex: s.liveVibeIndex,
+        liveVibeState: s.liveVibeState
       };
     });
-
+  
     return scored
       .sort((a, b) => b.score - a.score)
       .slice(0, n);
   }
 
-  function buildFeatured() {
-    const featuredIds =
-      selectedCity.featuredPlaceIds ?? [];
-
-    if (featuredIds.length === 0) return [];
-
-    const filtered = places.filter((p) =>
-      featuredIds.includes(p.place_id)
-    );
-
-    const scored = filtered.map((p) => {
-      const s = scorePlace({
-        placeId: p.place_id,
-        featuredIds,
-        liveWeather,
-        now,
-        userLat,
-        userLng,
-        weather,
-        placeLat: p.placeLat,
-        placeLng: p.placeLng,
-        rating: p.rating,
-        userRatingsTotal: p.user_ratings_total,
-        openNow: p.open_now,
-        types: p.types,
-        priceLevel: p.price_level,
-        section: "hotNow",
-        prefs
-      });
-
-      return {
-        place_id: p.place_id,
-  name: p.name,
-  rating: p.rating,
-  user_ratings_total: p.user_ratings_total,
-  vicinity: p.vicinity,
-  maps_url: p.maps_url,
-  distance_km: Number(s.km.toFixed(1)),
-  score: s.score,
-  liveVibeIndex: s.liveVibeIndex,
-  liveVibeState: s.liveVibeState
-      };
-    });
-
-    return scored
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 4);
-  }
-
   return NextResponse.json(
     {
       ok: true,
-      status: "OK",
       context: {
-        location: { lat: userLat, lng: userLng },
+        lat: originLat,
+        lng: originLng,
         time: now.toISOString(),
         weather,
         radius,
-        prefs,
-        city: {
-          id: selectedCity.id,
-          slug: selectedCity.slug,
-          name: selectedCity.name,
-          region: selectedCity.region
-        }
+        prefs
       },
       sections: {
-        featured: buildFeatured(),
         hotNow: buildSection("hotNow", 6),
         laterToday: buildSection("laterToday", 6),
         evening: buildSection("evening", 6),

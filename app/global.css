@@ -574,3 +574,16 @@ section:first-of-type .card{
     opacity: 0.6;
   }
 }
+.fadeWrap {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.fadeIn {
+  opacity: 1;
+  transform: translateY(0);
+}
