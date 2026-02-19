@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { buildExperienceLabel } from "@/lib/experience";
 import { scorePlace } from "@/lib/scorePlace";
 import {
   getCityBySlug,
@@ -216,8 +217,7 @@ const originLng =
     section: "hotNow" | "laterToday" | "evening" | "rainy",
     n: number
   ) {
-    const scored = places.map((p) => {   // ✅ p definieras här
-  
+    const scored = places.map((p) => {
       const s = scorePlace({
         userLat: originLat,
         userLng: originLng,
@@ -247,7 +247,14 @@ const originLng =
         distance_km: Number(s.km.toFixed(1)),
         score: s.score,
         liveVibeIndex: s.liveVibeIndex,
-        liveVibeState: s.liveVibeState
+        liveVibeState: s.liveVibeState,
+        experienceLabel: buildExperienceLabel({
+          liveVibeIndex: s.liveVibeIndex,
+          section,
+          weather,
+          rating: p.rating,
+          types: p.types
+        })
       };
     });
   
@@ -255,6 +262,7 @@ const originLng =
       .sort((a, b) => b.score - a.score)
       .slice(0, n);
   }
+
 
   return NextResponse.json(
     {
@@ -274,11 +282,14 @@ const originLng =
         rainy: buildSection("rainy", 6)
       }
     },
+  
+  
     {
       headers: {
         "Cache-Control":
           "public, s-maxage=60, stale-while-revalidate=300"
       }
+    
     }
   );
 }

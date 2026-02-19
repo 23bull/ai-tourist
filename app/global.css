@@ -697,3 +697,23 @@ section:first-of-type .card{
   font-weight: 600;
   cursor: pointer;
 }
+
+/* ===== Experience Badge ===== */
+
+.experienceBadge{
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  background: rgba(255, 215, 140, 0.08);
+  border: 1px solid rgba(255, 215, 140, 0.25);
+  color: rgba(255, 225, 170, 0.95);
+
+  backdrop-filter: blur(6px);
+}

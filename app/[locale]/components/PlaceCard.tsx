@@ -3,17 +3,18 @@
 import React from "react";
 
 export type Place = {
-    place_id: string;
-    name: string;
-    rating?: number;
-    user_ratings_total?: number;
-    vicinity?: string;
-    maps_url: string;
-    distance_km?: number;
-    score?: number;
-    reasonTokens?: string[];
-    liveVibeIndex?: number;
-  };
+  place_id: string;
+  name: string;
+  rating?: number;
+  user_ratings_total?: number;
+  vicinity?: string;
+  maps_url: string;
+  distance_km?: number;
+  score?: number;
+  reasonTokens?: string[];
+  liveVibeIndex?: number;
+  experienceLabel?: string;   // 👈 viktigt
+};
 
 type Props = {
   p: Place;
@@ -49,7 +50,7 @@ export default function PlaceCard({ p, onOpen }: Props) {
       onClick={handleOpen}
       onKeyDown={handleKeyDown}
     >
-      {/* Title row */}
+      {/* TITLE ROW */}
       <div
         style={{
           display: "flex",
@@ -65,7 +66,7 @@ export default function PlaceCard({ p, onOpen }: Props) {
           <div
             style={{
               fontSize: 12,
-              opacity: 0.6,
+              opacity: 0.55,
               whiteSpace: "nowrap"
             }}
           >
@@ -74,16 +75,23 @@ export default function PlaceCard({ p, onOpen }: Props) {
         )}
       </div>
 
-      {/* Rating */}
+      {/* EXPERIENCE BADGE */}
+      {p.experienceLabel && (
+        <div className="experienceBadge">
+          {p.experienceLabel}
+        </div>
+      )}
+
+      {/* RATING */}
       {p.rating !== undefined && (
-        <div style={{ fontSize: 13, opacity: 0.85, marginTop: 4 }}>
+        <div style={{ fontSize: 13, opacity: 0.85, marginTop: 6 }}>
           ⭐ {p.rating} ({p.user_ratings_total ?? 0})
         </div>
       )}
 
-      {/* Address / vicinity */}
+      {/* ADDRESS */}
       {p.vicinity && (
-        <div style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>
+        <div style={{ fontSize: 12, opacity: 0.65, marginTop: 4 }}>
           {p.vicinity}
         </div>
       )}

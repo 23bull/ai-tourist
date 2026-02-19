@@ -188,3 +188,40 @@ export function scorePlace(params: {
     liveVibeState
   };
 }
+
+export function buildExperienceLabel(args: {
+  liveVibeIndex: number;
+  section: string;
+  weather: string;
+  rating?: number;
+  types?: string[];
+}) {
+  const { liveVibeIndex, section, weather, rating, types } = args;
+
+  const energy =
+    liveVibeIndex > 75
+      ? "Electric atmosphere"
+      : liveVibeIndex > 55
+      ? "Social energy"
+      : liveVibeIndex > 35
+      ? "Relaxed ambiance"
+      : "Quiet setting";
+
+  const timeTone =
+    section === "evening"
+      ? "after-dark presence"
+      : section === "laterToday"
+      ? "golden-hour charm"
+      : "daytime appeal";
+
+  const weatherTone =
+    weather === "sunny"
+      ? "sunlit mood"
+      : weather === "rain"
+      ? "cozy refuge"
+      : "";
+
+  return [energy, timeTone, weatherTone]
+    .filter(Boolean)
+    .join(" · ");
+}
