@@ -587,3 +587,113 @@ section:first-of-type .card{
   opacity: 1;
   transform: translateY(0);
 }
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalCard {
+  background: #121212;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: fadeUp 0.25s ease;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modalMeta {
+  margin-top: 14px;
+  font-size: 14px;
+  opacity: 0.85;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalBody {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.modalActions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.primaryBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #1e88e5, #42a5f5);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.secondaryBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
+  background: #1a1a1a;
+  color: #ddd;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.secondaryBtn:hover {
+  background: #222;
+}
+
+.bookBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #ff8a00, #ff6a00);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
