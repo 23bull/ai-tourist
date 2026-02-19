@@ -1,20 +1,8 @@
 "use client";
 
-import React from "react";
-
-type Place = {
-    place_id: string;
-    name: string;
-    rating?: number;
-    user_ratings_total?: number;
-    vicinity?: string | number;
-    distance_km?: number;
-  
-    maps_url?: string;
-    phone?: string;
-    website?: string;
-    bookable?: boolean;
-  };
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
+import { Place } from "./PlaceCard";
 
 type Props = {
   place: Place;
@@ -22,97 +10,91 @@ type Props = {
 };
 
 export default function PlaceModal({ place, onClose }: Props) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   function formatDistance(km?: number) {
-    if (km === undefined) return "";
-    if (km === 0) return "You are here";
-    if (km < 1) return `${Math.round(km * 1000)} m away`;
-    return `${km.toFixed(1)} km away`;
+    if (!km) return "";
+    if (km < 1) return `${Math.round(km * 1000)} m`;
+    return `${km.toFixed(1)} km`;
   }
 
-  return (
+  const modal = (
     <div
-      className="modalOverlay"
       onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.6)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 99999
+      }}
     >
       <div
-        className="modalCard"
         onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "90%",
+          maxWidth: 500,
+          background: "#111",
+          color: "white",
+          borderRadius: 20,
+          padding: 24,
+          boxShadow: "0 20px 60px rgba(0,0,0,0.6)"
+        }}
       >
-        {/* HEADER */}
-        <div className="modalHeader">
-          <h2>{place.name}</h2>
-          <button onClick={onClose} className="closeBtn">
-            ✕
-          </button>
-        </div>
+        <h2 style={{ margin: 0 }}>{place.name}</h2>
 
-        {/* META */}
-        <div className="modalMeta">
-          {place.rating !== undefined && (
-            <div>
-              ⭐ {place.rating} ({place.user_ratings_total ?? 0})
-            </div>
-          )}
+        {place.rating && (
+          <div style={{ marginTop: 6, opacity: 0.85 }}>
+            ⭐ {place.rating} ({place.user_ratings_total ?? 0})
+          </div>
+        )}
 
-          {place.vicinity && (
-            <div>{place.vicinity}</div>
-          )}
+        {place.vicinity && (
+          <div style={{ marginTop: 6, opacity: 0.7 }}>
+            {place.vicinity}
+          </div>
+        )}
 
-          {place.distance_km !== undefined && (
-            <div>{formatDistance(place.distance_km)}</div>
-          )}
-        </div>
+        {place.distance_km !== undefined && (
+          <div style={{ marginTop: 4, opacity: 0.7 }}>
+            {formatDistance(place.distance_km)} away
+          </div>
+        )}
 
-        {/* EXPERIENCE BLOCK */}
-        <div className="modalBody">
-          <p>
-            This place fits your current vibe and location.
-          </p>
-        </div>
+        {place.experienceLabel && (
+          <div style={{ marginTop: 14 }}>
+            {place.experienceLabel}
+          </div>
+        )}
 
-        {/* CTA (kommer byggas ut senare) */}
-        <div className="modalActions">
-  {place.maps_url && (
-    <a
-      href={place.maps_url}
-      target="_blank"
-      rel="noreferrer"
-      className="primaryBtn"
-    >
-      📍 Directions
-    </a>
-  )}
-
-  {place.phone && (
-    <a
-      href={`tel:${place.phone}`}
-      className="secondaryBtn"
-    >
-      📞 Call
-    </a>
-  )}
-
-  {place.website && (
-    <a
-      href={place.website}
-      target="_blank"
-      rel="noreferrer"
-      className="secondaryBtn"
-    >
-      🌐 Website
-    </a>
-  )}
-
-  {place.bookable && (
-    <button
-      className="bookBtn"
-      onClick={() => alert("Booking flow coming soon")}
-    >
-      📅 Book now
-    </button>
-  )}
-</div>
+        <a
+          href={place.maps_url}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "block",
+            marginTop: 22,
+            padding: "14px 16px",
+            borderRadius: 14,
+            textAlign: "center",
+            background: "linear-gradient(90deg,#1e90ff,#4aa3ff)",
+            fontWeight: 600,
+            textDecoration: "none",
+            color: "white"
+          }}
+        >
+          📍 Directions
+        </a>
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
