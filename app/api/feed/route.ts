@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildExperienceLabel } from "@/lib/experience";
+import { buildExperience } from "@/lib/experience";
 import { scorePlace } from "@/lib/scorePlace";
 import {
   getCityBySlug,
@@ -230,11 +230,20 @@ const originLng =
         placeLng: p.placeLng,
         rating: p.rating,
         userRatingsTotal: p.user_ratings_total,
-        openNow: p.open_now,
+        openNow: p.opening_hours?.open_now,
         types: p.types,
         priceLevel: p.price_level,
         section,
         prefs
+      });
+      
+      const experience = buildExperience({
+        liveVibeIndex: s.liveVibeIndex,
+        section,
+        weather,
+        rating: p.rating,
+        types: p.types,
+        audience: prefs.audience
       });
   
       return {
@@ -246,15 +255,12 @@ const originLng =
         maps_url: p.maps_url,
         distance_km: Number(s.km.toFixed(1)),
         score: s.score,
+        
         liveVibeIndex: s.liveVibeIndex,
         liveVibeState: s.liveVibeState,
-        experienceLabel: buildExperienceLabel({
-          liveVibeIndex: s.liveVibeIndex,
-          section,
-          weather,
-          rating: p.rating,
-          types: p.types
-        })
+        
+        liveLabel: experience.liveLabel,
+        reasonLabel: experience.reasonLabel,
       };
     });
   

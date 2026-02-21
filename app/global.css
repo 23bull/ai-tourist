@@ -698,22 +698,35 @@ section:first-of-type .card{
   cursor: pointer;
 }
 
-/* ===== Experience Badge ===== */
-
-.experienceBadge{
-  display: inline-flex;
-  align-items: center;
-  margin-top: 6px;
-  padding: 4px 10px;
+.experience-badge {
+  display: inline-block;
+  padding: 4px 12px;
   border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
 
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
-  background: rgba(255, 215, 140, 0.08);
-  border: 1px solid rgba(255, 215, 140, 0.25);
-  color: rgba(255, 225, 170, 0.95);
+  backdrop-filter: blur(8px);
+}
 
-  backdrop-filter: blur(6px);
+.experience-badge.vibrant {
+  color: #a78bfa;
+  text-shadow: 0 0 6px rgba(167, 139, 250, 0.35);
+}
+
+.experience-badge.social {
+  color: #60a5fa;
+  text-shadow: 0 0 6px rgba(96, 165, 250, 0.30);
+}
+
+.experience-badge.relaxed {
+  color: #34d399;
+  text-shadow: 0 0 6px rgba(52, 211, 153, 0.25);
+}
+
+.experience-badge.quiet {
+  color: #cbd5e1;
+  text-shadow: none;
 }

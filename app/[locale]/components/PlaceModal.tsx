@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Place } from "./PlaceCard";
 
@@ -68,11 +68,37 @@ export default function PlaceModal({ place, onClose }: Props) {
           </div>
         )}
 
-        {place.experienceLabel && (
-          <div style={{ marginTop: 14 }}>
-            {place.experienceLabel}
-          </div>
-        )}
+        {/* LIVE BADGE */}
+{place.liveLabel && (
+  <div
+    style={{
+      display: "inline-block",
+      padding: "6px 14px",
+      borderRadius: 999,
+      fontSize: 13,
+      fontWeight: 600,
+      marginTop: 14,
+      background:
+        place.liveLabel.level === "high"
+          ? "#ff4d4f"
+          : place.liveLabel.level === "midHigh"
+          ? "#ff8c00"
+          : place.liveLabel.level === "mid"
+          ? "#ffc107"
+          : "#2ecc71",
+      color: "#fff"
+    }}
+  >
+    {place.liveLabel.text}
+  </div>
+)}
+
+{/* REASON */}
+{place.reasonLabel && (
+  <div style={{ marginTop: 12, opacity: 0.9 }}>
+    {place.reasonLabel}
+  </div>
+)}
 
         <a
           href={place.maps_url}

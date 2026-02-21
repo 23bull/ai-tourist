@@ -80,10 +80,10 @@ function timeOfDayFit(now: Date, types?: string[]) {
 }
 
 function classifyVibe(score: number) {
-  if (score >= 85) return "electric";
-  if (score >= 70) return "buzzing";
-  if (score >= 55) return "lively";
-  if (score >= 40) return "calm";
+  if (score >= 90) return "electric";
+  if (score >= 80) return "buzzing";
+  if (score >= 65) return "lively";
+  if (score >= 50) return "calm";
   return "quiet";
 }
 
@@ -175,9 +175,19 @@ export function scorePlace(params: {
 
   const liveMax = 2.5 + 2.5 + 2 + 2 + 1.5;
 
-  const liveVibeIndex = Math.round(
+  let liveVibeIndex = Math.round(
     (liveRaw / liveMax) * 100
   );
+  
+  // 🚫 Om uttryckligen stängt → ingen live-energi
+  if (params.openNow === false) {
+    return {
+      score,
+      km,
+      liveVibeIndex: 0,
+      liveVibeState: "closed"
+    };
+  }
 
   const liveVibeState = classifyVibe(liveVibeIndex);
 
@@ -195,17 +205,22 @@ export function buildExperienceLabel(args: {
   weather: string;
   rating?: number;
   types?: string[];
+  liveVibeState?: string;
 }) {
-  const { liveVibeIndex, section, weather, rating, types } = args;
+  const { liveVibeState, section, weather, rating, types } = args;
 
   const energy =
-    liveVibeIndex > 75
-      ? "Electric atmosphere"
-      : liveVibeIndex > 55
-      ? "Social energy"
-      : liveVibeIndex > 35
-      ? "Relaxed ambiance"
-      : "Quiet setting";
+  liveVibeState === "electric"
+    ? "Electric atmosphere"
+    : liveVibeState === "buzzing"
+    ? "Social energy"
+    : liveVibeState === "lively"
+    ? "Vibrant but relaxed"
+    : liveVibeState === "calm"
+    ? "Relaxed ambiance"
+    : liveVibeState === "quiet"
+    ? "Quiet setting"
+    : "Currently closed";
 
   const timeTone =
     section === "evening"

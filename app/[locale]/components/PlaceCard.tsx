@@ -11,9 +11,13 @@ export type Place = {
   maps_url: string;
   distance_km?: number;
   score?: number;
-  reasonTokens?: string[];
-  liveVibeIndex?: number;
-  experienceLabel?: string;   // 👈 viktigt
+
+  liveLabel?: {
+    text: string;
+    level: "high" | "midHigh" | "mid" | "low";
+  };
+
+  reasonLabel?: string;
 };
 
 type Props = {
@@ -40,6 +44,21 @@ export default function PlaceCard({ p, onOpen }: Props) {
     return `${km.toFixed(1)} km`;
   }
 
+  function getLiveColor(level: "high" | "midHigh" | "mid" | "low") {
+    switch (level) {
+      case "high":
+        return "#ff4d4f";
+      case "midHigh":
+        return "#ff8c00";
+      case "mid":
+        return "#ffc107";
+      case "low":
+        return "#2ecc71";
+      default:
+        return "#666";
+    }
+  }
+
   return (
     <div
       className="card"
@@ -55,12 +74,11 @@ export default function PlaceCard({ p, onOpen }: Props) {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          gap: 8
+          gap: 8,
+          alignItems: "flex-start"
         }}
       >
-        <div style={{ fontWeight: 600 }}>
-          {p.name}
-        </div>
+        <div style={{ fontWeight: 600 }}>{p.name}</div>
 
         {p.distance_km !== undefined && (
           <div
@@ -75,13 +93,14 @@ export default function PlaceCard({ p, onOpen }: Props) {
         )}
       </div>
 
-      {/* EXPERIENCE BADGE */}
-      {p.experienceLabel && (
-        <div className="experienceBadge">
-          {p.experienceLabel}
-        </div>
-      )}
-
+{/* LIVE BADGE */}
+{p.liveLabel ? (
+  <div className={`experience-badge ${p.liveLabel.level}`}>
+    {p.liveLabel.text}
+  </div>
+) : (
+  <div style={{ color: "red" }}>NO LIVE LABEL</div>
+)}
       {/* RATING */}
       {p.rating !== undefined && (
         <div style={{ fontSize: 13, opacity: 0.85, marginTop: 6 }}>
@@ -93,6 +112,13 @@ export default function PlaceCard({ p, onOpen }: Props) {
       {p.vicinity && (
         <div style={{ fontSize: 12, opacity: 0.65, marginTop: 4 }}>
           {p.vicinity}
+        </div>
+      )}
+
+      {/* REASON LABEL */}
+      {p.reasonLabel && (
+        <div style={{ fontSize: 13, opacity: 0.9, marginTop: 6 }}>
+          {p.reasonLabel}
         </div>
       )}
     </div>
