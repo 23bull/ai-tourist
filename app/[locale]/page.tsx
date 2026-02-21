@@ -71,27 +71,25 @@ const selectedCity =
   const budget = pickFirst(sp.budget);
 
   return (
-    <>
-      <div className="hero">
-        <div className="heroOverlay">
-          <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-            <PreferencesBar
-              cities={cities}
-              defaultCityId={selectedCity.slug}
-            />
-          </div>
+    <div className="hero-bg">
+      <div className="heroOverlay">
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <PreferencesBar
+            cities={cities}
+            defaultCityId={selectedCity.slug}
+          />
         </div>
       </div>
-
+  
       <main className="pageContent">
-      <GeoFeed
-  citySlug={isMyLocation ? "my-location" : selectedCity.slug}
-  audience={audience ?? undefined}
-  vibe={vibe ?? undefined}
-  mobility={mobility ?? undefined}
-  budget={budget ?? undefined}
-/>
+        <GeoFeed
+          citySlug={isMyLocation ? "my-location" : selectedCity.slug}
+          audience={audience ?? undefined}
+          vibe={vibe ?? undefined}
+          mobility={mobility ?? undefined}
+          budget={budget ?? undefined}
+        />
       </main>
-    </>
+    </div>
   );
 }

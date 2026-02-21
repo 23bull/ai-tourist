@@ -45,20 +45,12 @@ html, body { height: 100%; }
 * { box-sizing: border-box; }
 
 body{
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--ink);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
 
-  background:
-    radial-gradient(1000px 700px at 20% 10%, rgba(var(--violet), 0.22), transparent 60%),
-    radial-gradient(900px 650px at 80% 18%, rgba(var(--accent), 0.16), transparent 60%),
-    radial-gradient(900px 700px at 55% 95%, rgba(var(--rose), 0.10), transparent 65%),
-    linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
-  background-attachment: fixed;
-}
 
 /* Subtle moving glow layer (primary motion) */
 body::before{
@@ -729,4 +721,39 @@ section:first-of-type .card{
 .experience-badge.quiet {
   color: #cbd5e1;
   text-shadow: none;
+}
+.hero-bg {
+  width: 100%;
+  min-height: 420px; /* bara toppsektion */
+  background-image: url("/images/sea.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+body {
+  margin: 0;
+
+  background:
+  radial-gradient(
+    circle at 50% 20%,
+    rgba(255,180,120,0.15),
+    transparent 50%
+  ),
+  linear-gradient(
+    rgba(15,18,30,0.50),
+    rgba(15,18,30,0.70)
+  ),
+    radial-gradient(1000px 700px at 20% 10%, rgba(var(--violet), 0.22), transparent 60%),
+    radial-gradient(900px 650px at 80% 18%, rgba(var(--accent), 0.16), transparent 60%),
+    radial-gradient(900px 700px at 55% 95%, rgba(var(--rose), 0.10), transparent 65%),
+    url("/images/sea.jpeg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.hero-bg > * {
+  position: relative;
+  z-index: 1;
 }
