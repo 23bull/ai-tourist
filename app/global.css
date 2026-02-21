@@ -84,7 +84,7 @@ body::after{
     radial-gradient(900px 600px at 25% 20%, rgba(255,255,255,0.05), transparent 60%),
     radial-gradient(800px 520px at 75% 35%, rgba(255,255,255,0.04), transparent 62%),
     radial-gradient(900px 600px at 55% 85%, rgba(255,255,255,0.035), transparent 65%);
-  filter: blur(26px);
+  filter: blur(5px);
   opacity: 0.55;
   animation: bgFloat2 18s ease-in-out infinite;
   transform: translate3d(0,0,0);
@@ -137,7 +137,7 @@ a:hover{ color: rgba(var(--accent), 1); }
 
   background: rgba(20, 28, 48, 0.55);   /* mörkare glas */
   border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
 
   border-radius: var(--radius);
   padding: 14px;
@@ -215,7 +215,7 @@ section:first-of-type .card{
   background: var(--surface);
   border: 1px solid rgba(255,255,255,0.22);
   box-shadow: var(--shadowHero);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   animation: fadeUp 220ms ease-out;
 }
 
@@ -372,7 +372,7 @@ section:first-of-type .card{
   border-radius: 16px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
 }
 
 .prefsTitle{
@@ -415,7 +415,7 @@ section:first-of-type .card{
   color: rgba(234,240,255,0.95);
   font-weight: 650;
   cursor: pointer;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
 
   background-image:
     linear-gradient(45deg, transparent 50%, rgba(234,240,255,0.75) 50%),
