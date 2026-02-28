@@ -17,7 +17,10 @@ export function middleware(request: NextRequest) {
   const credentials = atob(base64Credentials)
   const [username, password] = credentials.split(':')
 
-  if (username !== 'admin' || password !== 'HEMLIGT_LÖSEN') {
+  if (
+    username !== process.env.BASIC_AUTH_USER ||
+    password !== process.env.BASIC_AUTH_PASS
+  ) {
     return new NextResponse('Unauthorized', { status: 401 })
   }
 
